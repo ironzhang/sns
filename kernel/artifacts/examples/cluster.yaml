@@ -1,0 +1,23 @@
+apiVersion: "core.sns.io/v1"
+kind: SNSCluster
+metadata:
+  name: hna-v.sns.thrift.api
+  namespace: sns
+  labels:
+    domain: sns.thrift.api
+    cluster: hna-v
+spec:
+  tags:
+    Environment: "product"
+    Lidc: "hna"
+  endpoints:
+  - addr: "127.0.0.1:8000"
+    state: "enabled"
+    weight: 100
+    tags:
+      Hostname: "hostname1.gz01"
+  - addr: "127.0.0.2:8000"
+    state: "enabled"
+    weight: 100
+    tags:
+      Hostname: "hostname2.gz01"
