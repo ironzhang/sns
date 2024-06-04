@@ -3,9 +3,11 @@ package main
 import (
 	"os"
 
-	"github.com/ironzhang/superlib/ctxutil"
 	"github.com/ironzhang/tapp"
+	"github.com/ironzhang/tlog"
 	"github.com/ironzhang/tlog/zaplog"
+
+	"github.com/ironzhang/superlib/ctxutil"
 
 	"github.com/ironzhang/sns/sns-transformer/internal/app"
 )
@@ -17,6 +19,8 @@ var (
 )
 
 func main() {
+	tapp.DefaultLogConfig.Level = tlog.DEBUG
+
 	a := &app.Application{}
 	f := tapp.Framework{
 		Version: &tapp.VersionInfo{

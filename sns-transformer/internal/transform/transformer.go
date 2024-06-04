@@ -8,6 +8,8 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/client-go/tools/cache"
 
+	"github.com/ironzhang/tlog"
+
 	"github.com/ironzhang/sns/pkg/k8sclient"
 	"github.com/ironzhang/sns/sns-transformer/internal/update"
 )
@@ -35,6 +37,7 @@ func NewTransformer(opts Options, wc *k8sclient.WatchClient, u *update.Updater) 
 }
 
 func (p *Transformer) Start(ctx context.Context) {
+	tlog.WithContext(ctx).Debugw("transformer start")
 	indexers := cache.Indexers{
 		"app_index": appIndexFunc,
 	}

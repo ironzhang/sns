@@ -1,11 +1,53 @@
 package app
 
-import "context"
+import (
+	"context"
+
+	"k8s.io/client-go/kubernetes"
+	restclient "k8s.io/client-go/rest"
+	"k8s.io/client-go/tools/clientcmd"
+
+	"github.com/ironzhang/tlog"
+
+	coresnsv1client "github.com/ironzhang/sns/kernel/clients/coresnsclients/clientset/versioned/typed/core.sns.io/v1"
+	"github.com/ironzhang/sns/pkg/k8sclient"
+	"github.com/ironzhang/sns/sns-transformer/internal/transform"
+	"github.com/ironzhang/sns/sns-transformer/internal/update"
+)
 
 type Application struct {
+	transformer *transform.Transformer
+}
+
+func newTransformer(cfg *restclient.Config) (*transform.Transformer, error) {
+	clientset, err := kubernetes.NewForConfig(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	coresnsclient, err := coresnsv1client.NewForConfig(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return transform.NewTransformer(Conf.Transform,
+		k8sclient.NewWatchClient(clientset.CoreV1().RESTClient()),
+		update.NewUpdater(coresnsclient)), nil
 }
 
 func (p *Application) Init() error {
+	cfg, err := clientcmd.BuildConfigFromFlags("", Conf.Kube.KubeConfigPath)
+	if err != nil {
+		tlog.Errorw("build config from flags", "kube_config_path", Conf.Kube.KubeConfigPath, "error", err)
+		return err
+	}
+
+	p.transformer, err = newTransformer(cfg)
+	if err != nil {
+		tlog.Errorw("new transformer", "error", err)
+		return err
+	}
+
 	return nil
 }
 
@@ -14,6 +56,8 @@ func (p *Application) Fini() error {
 }
 
 func (p *Application) Run(ctx context.Context) error {
+	p.transformer.Start(ctx)
+
 	<-ctx.Done()
 	return nil
 }

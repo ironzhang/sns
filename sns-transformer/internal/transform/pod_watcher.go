@@ -3,7 +3,6 @@ package transform
 import (
 	"context"
 
-	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/cache"
 
 	"github.com/ironzhang/tlog"
@@ -18,7 +17,7 @@ type podWatcher struct {
 }
 
 func (p *podWatcher) OnWatch(indexer cache.Indexer, event k8sclient.Event) error {
-	tlog.Debugw("on watch", "action", event.Action, "key", event.Key, "object_meta", event.Object.(*corev1.Pod).ObjectMeta)
+	tlog.Debugw("on watch", "action", event.Action, "key", event.Key)
 
 	objects, err := indexer.Index("app_index", event.Object)
 	if err != nil {
@@ -33,7 +32,7 @@ func (p *podWatcher) OnWatch(indexer cache.Indexer, event k8sclient.Event) error
 			return nil
 		}
 
-		tlog.Debugw("delete clusters", "cnames", cnames)
+		tlog.Debugw("delete clusters", "namespace", p.targetNamespace, "cnames", cnames)
 		if err = p.updater.DeleteClusters(context.Background(), p.targetNamespace, cnames); err != nil {
 			tlog.Errorw("delete clusters", "cnames", cnames, "error", err)
 			return err
