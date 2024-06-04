@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hna-v-nginx-deployment
+  labels:
+    app: hna-v-nginx-deployment-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hna-v.nginx
+  template:
+    metadata:
+      labels:
+        app: hna-v.nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.22
+        ports:
+        - name: http
+          containerPort: 80
