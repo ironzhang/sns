@@ -1,3 +1,4 @@
 log/
 testdata/
+/sns-agent/sns-agent
 /sns-transformer/sns-transformer
