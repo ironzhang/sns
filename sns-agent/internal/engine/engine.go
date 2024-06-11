@@ -53,3 +53,12 @@ func (p *Engine) WatchDomain(ctx context.Context, domain string) (err error) {
 	}
 	return nil
 }
+
+// RefreshClusters refresh the given domain's cluster file.
+func (p *Engine) RefreshClusters(ctx context.Context, domain string) {
+	key := clusterIndexerKey(domain)
+	indexer, ok := p.indexers[key]
+	if ok {
+		p.cw.OnRefresh(indexer)
+	}
+}
