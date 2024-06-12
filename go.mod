@@ -3,7 +3,7 @@ module github.com/ironzhang/sns
 go 1.22.3
 
 require (
-	github.com/ironzhang/superlib v0.0.0-20240207090537-c4bb3ffa29e6
+	github.com/ironzhang/superlib v0.0.0-20240612023153-8a8bf1a44864
 	github.com/ironzhang/tapp v0.0.0-20240111031358-39164a99f46b
 	github.com/ironzhang/tlog v0.0.0-20230221102626-339a8b110d69
 	k8s.io/api v0.30.1
