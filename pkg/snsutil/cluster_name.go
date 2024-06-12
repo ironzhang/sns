@@ -18,9 +18,9 @@ func NewClusterMetadataName(appName, portName string) ClusterMetadataName {
 }
 
 func (p *ClusterMetadataName) String() string {
-	return fmt.Sprintf("%s.sns.%s.%s", p.ClusterName, p.PortName, p.ServiceName)
+	return fmt.Sprintf("%s.%s.%s", p.ClusterName, p.PortName, p.ServiceName)
 }
 
 func (p *ClusterMetadataName) Domain() string {
-	return fmt.Sprintf("sns.%s.%s", p.PortName, p.ServiceName)
+	return fmt.Sprintf("%s.%s", p.PortName, p.ServiceName)
 }
