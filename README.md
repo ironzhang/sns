@@ -4,11 +4,7 @@ English | [中文](./README_CN.md)
 
 ## Overview
 
-SNS(super-name-system) is a service discovery system similar to DNS. Users can use the SDKs to resolve domain names into IP:Port. The difference from DNS in that:
-
-* SNS supports resolve Port.
-* SNS provides flexible traffic scheduling capabilities.
-* SNS supports users to define their own load balancing algorithms.
+SNS(super-name-system) is a DNS-like product developed for intranet service discovery. Users can use the SDKs to resolve domain names into IP:Port. The difference from DNS is SNS provides flexible traffic scheduling capabilities. Base on this, users can quickly build functions such as Sentinel-Stress-Testing, Blue-Green-Deployment. 
 
 > the domain name in SNS is a specific concept, similar to the domain name in DNS, but not exactly the same.
 
@@ -86,5 +82,5 @@ sns-lookup sns/http.myapp
 sns-lookup sns/https.myapp
 ```
 
-we can use the SDK to resolve the domains too, see [supernamego](https://github.com/ironzhang/supernamego?tab=readme-ov-file#supernamego)
+we can use the SDK to resolve the domains too, see [supernamego](https://github.com/ironzhang/supernamego?tab=readme-ov-file#supernamego).
 
