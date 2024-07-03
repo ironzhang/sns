@@ -1,0 +1,23 @@
+digraph G {
+	ranksep=0.7
+	nodesep=0.8
+	splines=line
+	node [style="rounded,filled"]
+
+	myapp[shape="rectangle" fillcolor="salmon" label="myapp"]
+	http_myapp[shape="rectangle" fillcolor="cadetblue3" label="sns/http.myapp"]
+	thrift_myapp[shape="rectangle" fillcolor="cadetblue3" label="sns/thrift.myapp"]
+	small_http_myapp[shape="rectangle" fillcolor="bisque" label="small cluster"]
+	product_http_myapp[shape="rectangle" fillcolor="bisque" label="product cluster"]
+	small_http_myapp_endpoint1[shape="Mrecord" fillcolor="skyblue" label="{Addr: 10.244.0.144:80|State: enabled|Weight: 100}"]
+	small_http_myapp_endpoint2[shape="Mrecord" fillcolor="skyblue" label="{Addr: 10.244.0.145:80|State: enabled|Weight: 100}"]
+	product_http_myapp_endpoint1[shape="Mrecord" fillcolor="skyblue" label="{Addr: 10.244.1.144:80|State: enabled|Weight: 100}"]
+	product_http_myapp_endpoint2[shape="Mrecord" fillcolor="skyblue" label="{Addr: 10.244.1.145:80|State: enabled|Weight: 100}"]
+
+	myapp -> {http_myapp, thrift_myapp}
+	http_myapp->{small_http_myapp, product_http_myapp}
+	small_http_myapp->small_http_myapp_endpoint1:n
+	small_http_myapp->small_http_myapp_endpoint2:n
+	product_http_myapp->product_http_myapp_endpoint1:n
+	product_http_myapp->product_http_myapp_endpoint2:n
+}
