@@ -1,7 +1,7 @@
 # TODO
 
 - [x] README
-- [ ] 设计文档和 roadmap
+- [x] 设计文档和 roadmap
 - [ ] 快速部署到 k8s 环境
 	- [ ] 服务部署
 	- [ ] agent 注入
