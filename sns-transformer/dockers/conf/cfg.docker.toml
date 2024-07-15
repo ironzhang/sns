@@ -1,0 +1,6 @@
+[Kube]
+	KubeConfigPath = "./conf/kube/config"
+
+[Transform]
+	SourceNamespace = "default"
+	TargetNamespace = "sns"

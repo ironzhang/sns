@@ -19,6 +19,22 @@ type Application struct {
 	transformer *transform.Transformer
 }
 
+func buildRestClientConfig() (*restclient.Config, error) {
+	cfg, err := restclient.InClusterConfig()
+	if err == nil {
+		tlog.Info("build rest client config in cluster")
+		return cfg, nil
+	}
+
+	cfg, err = clientcmd.BuildConfigFromFlags("", Conf.Kube.KubeConfigPath)
+	if err == nil {
+		tlog.Info("build rest client config out of cluster")
+		return cfg, nil
+	}
+
+	return nil, err
+}
+
 func newTransformer(cfg *restclient.Config) (*transform.Transformer, error) {
 	clientset, err := kubernetes.NewForConfig(cfg)
 	if err != nil {
@@ -36,9 +52,9 @@ func newTransformer(cfg *restclient.Config) (*transform.Transformer, error) {
 }
 
 func (p *Application) Init() error {
-	cfg, err := clientcmd.BuildConfigFromFlags("", Conf.Kube.KubeConfigPath)
+	cfg, err := buildRestClientConfig()
 	if err != nil {
-		tlog.Errorw("build config from flags", "kube_config_path", Conf.Kube.KubeConfigPath, "error", err)
+		tlog.Errorw("build rest client config", "error", err)
 		return err
 	}
 

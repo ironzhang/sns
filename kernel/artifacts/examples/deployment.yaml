@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hna-v-nginx-deployment
+  name: zone00-myapp-deployment
   labels:
-    app: hna-v-nginx-deployment-v1
+    app: zone00-myapp-deployment-v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hna-v.nginx
+      app: zone00.myapp
   template:
     metadata:
       labels:
-        app: hna-v.nginx
+        app: zone00.myapp
     spec:
       containers:
       - name: nginx
