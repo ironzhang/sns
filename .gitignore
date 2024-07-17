@@ -2,3 +2,7 @@ log/
 testdata/
 /sns-agent/sns-agent
 /sns-transformer/sns-transformer
+/sns-transformer/dockers/sns-transformer
+/sns-transformer/dockers/conf/kube/ca.crt
+/sns-transformer/dockers/conf/kube/client.crt
+/sns-transformer/dockers/conf/kube/client.key

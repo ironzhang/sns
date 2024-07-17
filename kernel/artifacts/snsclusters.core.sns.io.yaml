@@ -6,12 +6,12 @@ metadata:
 spec:
   # 组名称，用于 REST API: /apis/<组>/<版本>
   group: core.sns.io
-    # 列举此 CustomResourceDefinition 所支持的版本
+  # 列举此 CustomResourceDefinition 所支持的版本
   versions:
     - name: v1
       # 每个版本都可以通过 served 标志来独立启用或禁止
       served: true
-        # 其中一个且只有一个版本必需被标记为存储版本
+      # 其中一个且只有一个版本必需被标记为存储版本
       storage: true
       schema:
         openAPIV3Schema:
