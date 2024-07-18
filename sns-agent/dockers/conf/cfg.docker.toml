@@ -1,0 +1,10 @@
+ResourcePath = "/sns/resource"
+
+[Listen]
+	Addr = ":1789"
+
+[Kube]
+	KubeConfigPath = "./conf/kube/config"
+
+[Engine]
+	Namespace = "sns"

@@ -6,3 +6,7 @@ testdata/
 /sns-transformer/dockers/conf/kube/ca.crt
 /sns-transformer/dockers/conf/kube/client.crt
 /sns-transformer/dockers/conf/kube/client.key
+/sns-agent/dockers/sns-agent
+/sns-agent/dockers/conf/kube/ca.crt
+/sns-agent/dockers/conf/kube/client.crt
+/sns-agent/dockers/conf/kube/client.key

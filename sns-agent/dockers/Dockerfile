@@ -4,6 +4,8 @@ LABEL maintainer="iron.zhang@foxmail.com"
 WORKDIR /sns
 COPY ./conf ./conf
 COPY ./entrypoint.sh ./
-COPY ./sns-transformer ./
+COPY ./sns-agent ./
+
+EXPOSE 1789
 
 ENTRYPOINT ["./entrypoint.sh"]
