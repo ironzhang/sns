@@ -1,4 +1,4 @@
-ResourcePath = "/sns/resource"
+ResourcePath = "/root/.supername/resource"
 
 [Listen]
 	Addr = ":1789"

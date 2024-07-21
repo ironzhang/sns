@@ -3,7 +3,7 @@ module github.com/ironzhang/sns
 go 1.22.3
 
 require (
-	github.com/ironzhang/superlib v0.0.0-20240612023153-8a8bf1a44864
+	github.com/ironzhang/superlib v0.0.0-20240710120141-d99408155985
 	github.com/ironzhang/tapp v0.0.0-20240111031358-39164a99f46b
 	github.com/ironzhang/tlog v0.0.0-20230221102626-339a8b110d69
 	k8s.io/api v0.30.1
@@ -28,6 +28,7 @@ require (
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/imdario/mergo v0.3.6 // indirect
+	github.com/ironzhang/supernamego v0.0.0-20240710120533-53d53a88b776 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/labstack/echo v3.3.10+incompatible // indirect
@@ -42,6 +43,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.1 // indirect
+	github.com/yuin/gopher-lua v1.1.1 // indirect
 	go.uber.org/atomic v1.5.0 // indirect
 	go.uber.org/multierr v1.3.0 // indirect
 	go.uber.org/tools v0.0.0-20190618225709-2cfd321de3ee // indirect

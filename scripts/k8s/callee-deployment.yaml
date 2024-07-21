@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-callee-deployment
+  labels:
+    app: k8s-callee-deployment-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s.callee
+  template:
+    metadata:
+      labels:
+        app: k8s.callee
+    spec:
+      containers:
+      - name: callee
+        image: docker-registry:5000/sns/examples/callee:latest
+        ports:
+        - name: http
+          containerPort: 8001

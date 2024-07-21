@@ -10,3 +10,5 @@ testdata/
 /sns-agent/dockers/conf/kube/ca.crt
 /sns-agent/dockers/conf/kube/client.crt
 /sns-agent/dockers/conf/kube/client.key
+/examples/callee/dockers/callee
+/examples/caller/dockers/caller

@@ -3,22 +3,44 @@ kind: ClusterRole
 metadata:
   name: sns-transformer
 rules:
-- apiGroups: [""] # "" indicates the core API group  
-  resources: ["pods"]  
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
   verbs: ["get", "list", "watch"]
 - apiGroups: ["core.sns.io"]
-  resources: ["snsclusters"]  
+  resources: ["snsclusters"]
   verbs: ["get", "create", "update", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: sns-transformer-binging
-subjects:  
+subjects:
 - kind: ServiceAccount
   name: default
   namespace: default
 roleRef:
   kind: ClusterRole
-  name: sns-transformer  
+  name: sns-transformer
+  apiGroup: ""
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: sns-agent
+rules:
+- apiGroups: ["core.sns.io"]
+  resources: ["snsclusters"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: sns-agent-binging
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: sns-agent
   apiGroup: ""

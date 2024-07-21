@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-caller-deployment
+  labels:
+    app: k8s-caller-deployment-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s.caller
+  template:
+    metadata:
+      labels:
+        app: k8s.caller
+    spec:
+      containers:
+      - name: caller
+        image: docker-registry:5000/sns/examples/caller:latest
+        volumeMounts:
+        - name: supername-path
+          mountPath: /root/.supername
+        ports:
+        - name: http
+          containerPort: 8000
+      - name: sns-agent
+        image: docker-registry:5000/sns/agent:v0.0.1
+        volumeMounts:
+        - name: supername-path
+          mountPath: /root/.supername
+      volumes:
+        - name: supername-path
+          emptyDir: {}

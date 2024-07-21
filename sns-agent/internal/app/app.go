@@ -26,6 +26,22 @@ type Application struct {
 	echosvr *echo.Echo
 }
 
+func buildRestClientConfig() (*restclient.Config, error) {
+	cfg, err := restclient.InClusterConfig()
+	if err == nil {
+		tlog.Info("build rest client config in cluster")
+		return cfg, nil
+	}
+
+	cfg, err = clientcmd.BuildConfigFromFlags("", Conf.Kube.KubeConfigPath)
+	if err == nil {
+		tlog.Info("build rest client config out of cluster")
+		return cfg, nil
+	}
+
+	return nil, err
+}
+
 func newEngine(cfg *restclient.Config, pathmgr *paths.PathManager) (*engine.Engine, error) {
 	coresnsclient, err := coresnsv1client.NewForConfig(cfg)
 	if err != nil {
@@ -41,9 +57,9 @@ func newEngine(cfg *restclient.Config, pathmgr *paths.PathManager) (*engine.Engi
 }
 
 func newAgent() (*agent.Agent, error) {
-	cfg, err := clientcmd.BuildConfigFromFlags("", Conf.Kube.KubeConfigPath)
+	cfg, err := buildRestClientConfig()
 	if err != nil {
-		tlog.Errorw("build config from flags", "kube_config_path", Conf.Kube.KubeConfigPath, "error", err)
+		tlog.Errorw("build rest client config", "error", err)
 		return nil, err
 	}
 
