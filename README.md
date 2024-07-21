@@ -17,69 +17,24 @@ SNS(super-name-system) is a DNS-like product developed for intranet service disc
 
 ### Installation
 
-step 1: use minikube to start k8s server
+step 1: setup
 ```
-minikube start
-```
-
-step 2: create sns CRD
-```
-curl https://raw.githubusercontent.com/ironzhang/sns/master/kernel/artifacts/snsclusters.core.sns.io.yaml >snsclusters.core.sns.io.yaml
-kubectl apply -f snsclusters.core.sns.io.yaml
-```
-
-step 3: install sns services
-```
-go install github.com/ironzhang/sns/sns-agent@latest
-go install github.com/ironzhang/sns/sns-transformer@latest
 go install github.com/ironzhang/supernamego/examples/sns-lookup@latest
+git clone git@github.com:ironzhang/sns.git
+(cd sns/scripts/k8s && ./setup.sh && ./setup.sh examples)
 ```
 
-step 4: start sns services
+step 2: run sns-agent
 ```
-mkdir -p sns-transformer; cd sns-transformer; nohup sns-transformer >run.log &; cd ..;
-mkdir -p sns-agent; cd sns-agent; nohup sns-agent >run.log &; cd ..;
+(cd sns/sns-agent && go build && ./sns-agent)
 ```
 
 ### Usage
 
-first, we create some k8s pods
+now we can use sns-lookup to resolve the domains
 ```
-kubectl apply -f deployment.yaml
-```
-
-The deployment.yaml is as follows:
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: zone00-myapp-deployment
-  labels:
-    app: zone00-myapp-deployment-v1
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: zone00.myapp
-  template:
-    metadata:
-      labels:
-        app: zone00.myapp
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:1.22
-        ports:
-        - name: http
-          containerPort: 80
-        - name: https
-          containerPort: 443
-```
-
-then, we can use sns-lookup to resolve the domains
-```
-sns-lookup sns/http.myapp
-sns-lookup sns/https.myapp
+sns-lookup sns/http.callee
+sns-lookup sns/http.caller
 ```
 
 we can use the SDK to resolve the domains too, see [supernamego](https://github.com/ironzhang/supernamego?tab=readme-ov-file#supernamego).

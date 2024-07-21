@@ -1,5 +1,9 @@
 #!/bin/bash
 
+function kubectl() {
+	minikube kubectl -- $@
+}
+
 function StartMinikube() {
 	echo "minikube start --registry-mirror=https://docker.m.daocloud.io --image-mirror-country=cn --insecure-registry=docker-registry:5000"
 	minikube start --registry-mirror=https://docker.m.daocloud.io --image-mirror-country=cn --insecure-registry=docker-registry:5000
@@ -175,8 +179,11 @@ function main() {
 		"Xexamples" )
 			SetupExamples
 			;;
-		* )
+		"X" )
 			Setup
+			;;
+		* )
+			Help
 			;;
 	esac
 }
