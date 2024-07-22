@@ -1,7 +1,12 @@
 log/
 testdata/
+
 /sns-agent/sns-agent
 /sns-transformer/sns-transformer
+/tools/sns-lookup/sns-lookup
+/examples/callee/callee
+/examples/caller/caller
+
 /sns-transformer/dockers/sns-transformer
 /sns-transformer/dockers/conf/kube/ca.crt
 /sns-transformer/dockers/conf/kube/client.crt
