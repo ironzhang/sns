@@ -8,11 +8,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: default.sns-transformer
+      app: sns-transformer
   template:
     metadata:
       labels:
-        app: default.sns-transformer
+        app: sns-transformer
     spec:
       containers:
       - name: transformer

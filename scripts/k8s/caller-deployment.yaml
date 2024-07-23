@@ -8,11 +8,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: k8s.caller
+      app: caller
   template:
     metadata:
       labels:
-        app: k8s.caller
+        app: caller
     spec:
       containers:
       - name: caller

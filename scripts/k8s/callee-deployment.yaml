@@ -8,11 +8,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: k8s.callee
+      app: callee
   template:
     metadata:
       labels:
-        app: k8s.callee
+        app: callee
     spec:
       containers:
       - name: callee

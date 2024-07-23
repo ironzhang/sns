@@ -39,7 +39,7 @@ func NewTransformer(opts Options, wc *k8sclient.WatchClient, u *update.Updater) 
 func (p *Transformer) Start(ctx context.Context) {
 	tlog.WithContext(ctx).Debugw("transformer start")
 	indexers := cache.Indexers{
-		"app_index": appIndexFunc,
+		"cluster_index": clusterIndexFunc,
 	}
 	p.wc.Watch(ctx, p.opts.SourceNamespace, "pods", &corev1.Pod{}, labels.Everything(), fields.Everything(), indexers, &p.pw)
 }

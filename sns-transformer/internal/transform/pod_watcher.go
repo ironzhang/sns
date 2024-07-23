@@ -19,9 +19,9 @@ type podWatcher struct {
 func (p *podWatcher) OnWatch(indexer cache.Indexer, event k8sclient.Event) error {
 	tlog.Debugw("on watch", "action", event.Action, "key", event.Key)
 
-	objects, err := indexer.Index("app_index", event.Object)
+	objects, err := indexer.Index("cluster_index", event.Object)
 	if err != nil {
-		tlog.Warnw("list objects by app index", "object", event.Object, "error", err)
+		tlog.Warnw("list objects by cluster index", "object", event.Object, "error", err)
 		return nil
 	}
 
@@ -29,6 +29,9 @@ func (p *podWatcher) OnWatch(indexer cache.Indexer, event k8sclient.Event) error
 	if len(clusters) <= 0 {
 		cnames, err := objectToCNames(event.Object)
 		if err != nil {
+			return nil
+		}
+		if len(cnames) <= 0 {
 			return nil
 		}
 

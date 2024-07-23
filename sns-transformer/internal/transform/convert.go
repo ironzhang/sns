@@ -41,6 +41,9 @@ func (p *podCollection) AddPod(pod *corev1.Pod) {
 	if pod.Status.PodIP == "" {
 		return
 	}
+	if pod.ObjectMeta.Labels["app"] == "" {
+		return
+	}
 
 	for _, c := range pod.Spec.Containers {
 		for _, port := range c.Ports {
@@ -48,7 +51,7 @@ func (p *podCollection) AddPod(pod *corev1.Pod) {
 				continue
 			}
 
-			cmn := snsutil.NewClusterMetadataName(pod.ObjectMeta.Labels["app"], port.Name)
+			cmn := snsutil.NewClusterMetadataName(pod.ObjectMeta.Labels["cluster"], port.Name, pod.ObjectMeta.Labels["app"])
 			cluster := p.getOrNewCluster(cmn)
 			cluster.Spec.Endpoints = append(cluster.Spec.Endpoints, coresnsv1.Endpoint{
 				Addr:   snsutil.JoinHostPort(pod.Status.PodIP, int(port.ContainerPort)),
@@ -90,6 +93,9 @@ func objectToCNames(object interface{}) ([]string, error) {
 		tlog.Errorw("object is not a pod", "object", object)
 		return nil, errors.New("object is not a pod")
 	}
+	if pod.ObjectMeta.Labels["app"] == "" {
+		return nil, nil
+	}
 
 	cnames := make([]string, 0)
 	for _, c := range pod.Spec.Containers {
@@ -97,7 +103,7 @@ func objectToCNames(object interface{}) ([]string, error) {
 			if port.Name == "" {
 				continue
 			}
-			cmn := snsutil.NewClusterMetadataName(pod.ObjectMeta.Labels["app"], port.Name)
+			cmn := snsutil.NewClusterMetadataName(pod.ObjectMeta.Labels["cluster"], port.Name, pod.ObjectMeta.Labels["app"])
 			cnames = append(cnames, cmn.String())
 		}
 	}
