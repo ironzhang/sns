@@ -19,22 +19,54 @@ SNS(super-name-system) is a DNS-like product developed for intranet service disc
 
 step 1: setup
 ```
-go install github.com/ironzhang/supernamego/examples/sns-lookup@latest
 git clone git@github.com:ironzhang/sns.git
-(cd sns/scripts/k8s && ./setup.sh && ./setup.sh examples)
+(cd sns/scripts/k8s && ./setup.sh init)
 ```
 
 step 2: run sns-agent
 ```
-(cd sns/sns-agent && go build && ./sns-agent)
+(cd sns/sns-agent && make && ./sns-agent)
 ```
 
 ### Usage
 
-now we can use sns-lookup to resolve the domains
+first, we create some k8s pods
 ```
-sns-lookup sns/http.callee
-sns-lookup sns/http.caller
+kubectl apply -f deployment.yaml
+```
+
+The deployment.yaml is as follows:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-myapp-deployment
+  labels:
+    app: k8s-myapp-deployment-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s.myapp
+  template:
+    metadata:
+      labels:
+        app: k8s.myapp
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.22
+        ports:
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+```
+
+then, we can use sns-lookup to resolve the domains
+```
+sns-lookup sns/http.myapp
+sns-lookup sns/https.myapp
 ```
 
 we can use the SDK to resolve the domains too, see [supernamego](https://github.com/ironzhang/supernamego?tab=readme-ov-file#supernamego).

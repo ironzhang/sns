@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
       - name: transformer
-        image: docker-registry:5000/sns/transformer:v0.0.1
+        image: docker-registry:5000/sns/transformer:latest

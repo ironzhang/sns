@@ -1,15 +1,14 @@
 apiVersion: "core.sns.io/v1"
 kind: SNSCluster
 metadata:
-  name: hna-v.sns.thrift.api
+  name: k8s.thrift.api
   namespace: sns
   labels:
-    domain: sns.thrift.api
-    cluster: hna-v
+    domain: thrift.api
+    cluster: k8s
 spec:
   tags:
     Environment: "product"
-    Lidc: "hna"
   endpoints:
   - addr: "127.0.0.1:8000"
     state: "enabled"

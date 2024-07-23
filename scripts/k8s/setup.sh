@@ -25,26 +25,31 @@ function RunDockerRegistry() {
 	docker run -d --name docker-registry --network minikube -p 5000:5000 --restart always registry:2
 }
 
+function InstallTools() {
+	echo "go install ../../tools/sns-lookup"
+	go install ../../tools/sns-lookup
+}
+
 function BuildTransformerImage() {
 	echo "(cd ../../sns-transformer/dockers && ./build-docker-image.sh)"
 	(cd ../../sns-transformer/dockers && ./build-docker-image.sh)
 
-	echo "docker tag sns/transformer:v0.0.1 127.0.0.1:5000/sns/transformer:v0.0.1"
-	docker tag sns/transformer:v0.0.1 127.0.0.1:5000/sns/transformer:v0.0.1
+	echo "docker tag sns/transformer:latest 127.0.0.1:5000/sns/transformer:latest"
+	docker tag sns/transformer:latest 127.0.0.1:5000/sns/transformer:latest
 
-	echo "docker push 127.0.0.1:5000/sns/transformer:v0.0.1"
-	docker push 127.0.0.1:5000/sns/transformer:v0.0.1
+	echo "docker push 127.0.0.1:5000/sns/transformer:latest"
+	docker push 127.0.0.1:5000/sns/transformer:latest
 }
 
 function BuildAgentImage() {
 	echo "(cd ../../sns-agent/dockers && ./build-docker-image.sh)"
 	(cd ../../sns-agent/dockers && ./build-docker-image.sh)
 
-	echo "docker tag sns/agent:v0.0.1 127.0.0.1:5000/sns/agent:v0.0.1"
-	docker tag sns/agent:v0.0.1 127.0.0.1:5000/sns/agent:v0.0.1
+	echo "docker tag sns/agent:latest 127.0.0.1:5000/sns/agent:latest"
+	docker tag sns/agent:latest 127.0.0.1:5000/sns/agent:latest
 
-	echo "docker push 127.0.0.1:5000/sns/agent:v0.0.1"
-	docker push 127.0.0.1:5000/sns/agent:v0.0.1
+	echo "docker push 127.0.0.1:5000/sns/agent:latest"
+	docker push 127.0.0.1:5000/sns/agent:latest
 }
 
 function RunTransformerPod() {
@@ -81,19 +86,19 @@ function RunExamplePods() {
 }
 
 function DebugUsage() {
-	echo "setup.sh debug examples:"
+	echo "Usage of setup.sh debug:"
 	echo "	./setup.sh debug StartMinikube"
 	echo "	./setup.sh debug CreateSNSCRDs"
 	echo "	./setup.sh debug RunDockerRegistry"
+	echo "	./setup.sh debug InstallTools"
 	echo "	./setup.sh debug BuildTransformerImage"
 	echo "	./setup.sh debug BuildAgentImage"
 	echo "	./setup.sh debug RunTransformerPod"
 	echo "	./setup.sh debug BuildExampleImages"
 	echo "	./setup.sh debug RunExamplePods"
-	echo "	./setup.sh debug Clean"
 }
 
-function Debug() {
+function DebugFunc() {
 	local funcName=$1
 	case X$funcName in
 		"XStartMinikube" )
@@ -104,6 +109,9 @@ function Debug() {
 			;;
 		"XRunDockerRegistry" )
 			RunDockerRegistry
+			;;
+		"XInstallTools" )
+			InstallTools
 			;;
 		"XBuildTransformerImage" )
 			BuildTransformerImage
@@ -120,14 +128,34 @@ function Debug() {
 		"XRunExamplePods" )
 			RunExamplePods
 			;;
-		"XClean" )
-			Clean
-			;;
 		* )
 			echo "Unknown function: $funcName"
-			DebugUsage
 			;;
 	esac
+}
+
+function Debug() {
+	if [ $# -eq 0 ]; then
+		DebugUsage
+		exit 0
+	fi
+
+	for arg in $@; do
+		echo "debug $arg"
+		DebugFunc $arg
+	done
+}
+
+function Init() {
+	StartMinikube
+	CreateSNSCRDs
+	RunDockerRegistry
+	InstallTools
+
+	BuildTransformerImage
+	BuildAgentImage
+
+	RunTransformerPod
 }
 
 function Clean() {
@@ -141,17 +169,6 @@ function Clean() {
 	docker rm docker-registry
 }
 
-function Setup() {
-	StartMinikube
-	CreateSNSCRDs
-	RunDockerRegistry
-
-	BuildTransformerImage
-	BuildAgentImage
-
-	RunTransformerPod
-}
-
 function SetupExamples() {
 	BuildExampleImages
 	RunExamplePods
@@ -159,7 +176,7 @@ function SetupExamples() {
 
 function Help() {
 	echo "Usage of ./setup.sh"
-	echo "	./setup.sh"
+	echo "	./setup.sh init"
 	echo "	./setup.sh clean"
 	echo "	./setup.sh examples"
 }
@@ -168,19 +185,17 @@ function main() {
 	local action=$1
 	case X$action in
 		"Xdebug" )
-			Debug $2
+			shift
+			Debug $@
+			;;
+		"Xinit" )
+			Init
 			;;
 		"Xclean" )
 			Clean
 			;;
-		"Xhelp" )
-			Help
-			;;
 		"Xexamples" )
 			SetupExamples
-			;;
-		"X" )
-			Setup
 			;;
 		* )
 			Help

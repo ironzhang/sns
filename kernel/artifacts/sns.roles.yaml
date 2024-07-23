@@ -24,23 +24,25 @@ roleRef:
   apiGroup: ""
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
   name: sns-agent
+  namespace: sns
 rules:
 - apiGroups: ["core.sns.io"]
   resources: ["snsclusters"]
-  verbs: ["get", "watch", "list"]
+  verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: sns-agent-binging
+  namespace: sns
 subjects:
 - kind: ServiceAccount
   name: default
   namespace: default
 roleRef:
-  kind: ClusterRole
+  kind: Role
   name: sns-agent
   apiGroup: ""

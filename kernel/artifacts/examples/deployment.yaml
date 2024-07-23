@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zone00-myapp-deployment
+  name: k8s-myapp-deployment
   labels:
-    app: zone00-myapp-deployment-v1
+    app: k8s-myapp-deployment-v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: zone00.myapp
+      app: k8s.myapp
   template:
     metadata:
       labels:
-        app: zone00.myapp
+        app: k8s.myapp
     spec:
       containers:
       - name: nginx

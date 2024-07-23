@@ -6,9 +6,11 @@
 	- [x] 服务部署
 	- [x] agent 注入
 	- [x] mac 等开发环境快速安装
-	- [ ] sns-lookup 迁移到 sns 工程
-	- [ ] 调整 README
+	- [x] sns-lookup 迁移到 sns 工程
+	- [x] sns-agent k8s 权限调整
+	- [x] 调整 README
 	- [ ] 生产环境快速部署
+- [ ] app、cluster 等概念定义标准化
 - [ ] 路由机制
 - [ ] 标签匹配
 - [ ] 用户手册

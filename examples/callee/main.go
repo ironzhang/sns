@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"os"
 
 	"github.com/ironzhang/superlib/httputils/echoutil"
 	"github.com/ironzhang/superlib/httputils/echoutil/echorpc"
@@ -9,7 +11,8 @@ import (
 )
 
 func HandleEcho(ctx context.Context, in string, out *string) error {
-	*out = in
+	name, _ := os.Hostname()
+	*out = fmt.Sprintf("%s: %s", name, in)
 	return nil
 }
 

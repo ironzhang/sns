@@ -17,28 +17,15 @@ SNS（super-name-system）是一款专为内网服务发现而研发的类 DNS �
 
 ### 安装
 
-步骤1：使用 minikube 启动 k8s 服务
+步骤1：初始化安装
 ```
-minikube start --registry-mirror=https://registry.docker-cn.com --image-mirror-country=cn
-```
-
-步骤2：创建 sns CRD
-```
-curl https://raw.githubusercontent.com/ironzhang/sns/master/kernel/artifacts/snsclusters.core.sns.io.yaml >snsclusters.core.sns.io.yaml
-kubectl apply -f snsclusters.core.sns.io.yaml
+git clone git@github.com:ironzhang/sns.git
+(cd sns/scripts/k8s && ./setup.sh init)
 ```
 
-步骤3：安装 sns 服务
+步骤2：运行 sns-agent
 ```
-go install github.com/ironzhang/sns/sns-agent@latest
-go install github.com/ironzhang/sns/sns-transformer@latest
-go install github.com/ironzhang/supernamego/examples/sns-lookup@latest
-```
-
-步骤4：启动 sns 服务
-```
-mkdir -p sns-transformer; cd sns-transformer; nohup sns-transformer >run.log &; cd ..;
-mkdir -p sns-agent; cd sns-agent; nohup sns-agent >run.log &; cd ..;
+(cd sns/sns-agent && make && ./sns-agent)
 ```
 
 ### 用法
@@ -53,18 +40,18 @@ deployment.yaml 文件内容如下：
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zone00-myapp-deployment
+  name: k8s-myapp-deployment
   labels:
-    app: zone00-myapp-deployment-v1
+    app: k8s-myapp-deployment-v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: zone00.myapp
+      app: k8s.myapp
   template:
     metadata:
       labels:
-        app: zone00.myapp
+        app: k8s.myapp
     spec:
       containers:
       - name: nginx
