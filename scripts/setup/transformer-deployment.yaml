@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: default-sns-transformer-deployment
+  name: sns-transformer-deployment
   labels:
-    app: default-sns-transformer-deployment-v1
+    app: sns-transformer-deployment-v1
 spec:
   replicas: 1
   selector:

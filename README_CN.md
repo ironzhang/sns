@@ -20,7 +20,7 @@ SNS（super-name-system）是一款专为内网服务发现而研发的类 DNS �
 步骤1：初始化安装
 ```
 git clone git@github.com:ironzhang/sns.git
-(cd sns/scripts/k8s && ./setup.sh init)
+(cd sns/scripts/setup && ./setup.sh init)
 ```
 
 步骤2：运行 sns-agent

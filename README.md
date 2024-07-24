@@ -20,7 +20,7 @@ SNS(super-name-system) is a DNS-like product developed for intranet service disc
 step 1: setup
 ```
 git clone git@github.com:ironzhang/sns.git
-(cd sns/scripts/k8s && ./setup.sh init)
+(cd sns/scripts/setup && ./setup.sh init)
 ```
 
 step 2: run sns-agent

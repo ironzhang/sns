@@ -18,3 +18,5 @@ testdata/
 /sns-agent/dockers/conf/kube/client.key
 /examples/callee/dockers/callee
 /examples/caller/dockers/caller
+
+/scripts/setup/prod/
