@@ -31,6 +31,10 @@ func (p *podCollection) getOrNewCluster(n snsutil.ClusterMetadataName) *coresnsv
 					"domain":  n.Domain(),
 				},
 			},
+			Spec: coresnsv1.ClusterSpec{
+				Kind:      snsutil.K8S_ClusterKind,
+				Endpoints: make([]coresnsv1.Endpoint, 0),
+			},
 		}
 		p.clusters[cname] = c
 	}

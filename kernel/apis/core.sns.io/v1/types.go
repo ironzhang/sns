@@ -45,10 +45,14 @@ type Endpoint struct {
 
 // ClusterSpec is a specification of a cluster.
 type ClusterSpec struct {
+	// cluster kind
+	// +optional
+	Kind string `json:"kind,omitempty" protobuf:"bytes,1,opt,name=kind"`
+
 	// A map is used to store cluster's tags.
 	// +optional
 	// +patchStrategy=merge,retainKeys
-	Tags map[string]string `json:"tags,omitempty" patchStrategy:"merge,retainKeys" protobuf:"bytes,1,rep,name=tags"`
+	Tags map[string]string `json:"tags,omitempty" patchStrategy:"merge,retainKeys" protobuf:"bytes,2,rep,name=tags"`
 
 	// An endpoint list of the cluster.
 	// +optional
@@ -56,7 +60,7 @@ type ClusterSpec struct {
 	// +patchStrategy=merge,retainKeys
 	// +listType=map
 	// +listMapKey=addr
-	Endpoints []Endpoint `json:"endpoints,omitempty" patchStrategy:"merge,retainKeys" patchMergeKey:"addr" protobuf:"bytes,2,rep,name=endpoints"`
+	Endpoints []Endpoint `json:"endpoints,omitempty" patchStrategy:"merge,retainKeys" patchMergeKey:"addr" protobuf:"bytes,3,rep,name=endpoints"`
 }
 
 // +genclient

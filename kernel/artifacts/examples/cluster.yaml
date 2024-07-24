@@ -7,6 +7,7 @@ metadata:
     domain: thrift.api
     cluster: k8s
 spec:
+  kind: manual
   tags:
     Environment: "product"
   endpoints:

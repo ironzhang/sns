@@ -42,6 +42,10 @@ func (p *Updater) UpdateCluster(ctx context.Context, c coresnsv1.SNSCluster) err
 	if c.Spec.Tags == nil {
 		c.Spec.Tags = exist.Spec.Tags
 	}
+	if c.Spec.Endpoints == nil {
+		c.Spec.Endpoints = exist.Spec.Endpoints
+	}
+
 	if _, err = iface.Update(ctx, &c, metav1.UpdateOptions{}); err != nil {
 		tlog.WithContext(ctx).Errorw("update", "cluster", c, "error", err)
 		return err

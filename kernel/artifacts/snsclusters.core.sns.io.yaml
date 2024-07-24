@@ -20,6 +20,8 @@ spec:
             spec:
               type: object
               properties:
+                kind:
+                  type: string
                 tags:
                   type: object
                   additionalProperties: true
