@@ -6,6 +6,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
+	"github.com/ironzhang/superlib/superutil/supermodel"
 	"github.com/ironzhang/tlog"
 
 	coresnsv1 "github.com/ironzhang/sns/kernel/apis/core.sns.io/v1"
@@ -15,10 +16,11 @@ import (
 
 type podCollection struct {
 	namespace string
+	cmnb      *snsutil.ClusterMetaNameBuilder
 	clusters  map[string]*coresnsv1.SNSCluster
 }
 
-func (p *podCollection) getOrNewCluster(n snsutil.ClusterMetadataName) *coresnsv1.SNSCluster {
+func (p *podCollection) getOrNewCluster(n snsutil.ClusterMetaName) *coresnsv1.SNSCluster {
 	cname := n.String()
 	c, ok := p.clusters[cname]
 	if !ok {
@@ -27,12 +29,17 @@ func (p *podCollection) getOrNewCluster(n snsutil.ClusterMetadataName) *coresnsv
 				Name:      cname,
 				Namespace: p.namespace,
 				Labels: map[string]string{
-					"cluster": n.ClusterName,
-					"domain":  n.Domain(),
+					"domain":  n.DomainName(),
+					"cluster": n.ClusterName(),
 				},
 			},
 			Spec: coresnsv1.ClusterSpec{
-				Kind:      snsutil.K8S_ClusterKind,
+				Kind: n.Kind,
+				Labels: map[string]string{
+					supermodel.ZoneKey: n.Zone,
+					supermodel.LaneKey: n.Lane,
+					supermodel.KindKey: n.Kind,
+				},
 				Endpoints: make([]coresnsv1.Endpoint, 0),
 			},
 		}
@@ -55,7 +62,21 @@ func (p *podCollection) AddPod(pod *corev1.Pod) {
 				continue
 			}
 
-			cmn := snsutil.NewClusterMetadataName(pod.ObjectMeta.Labels["cluster"], port.Name, pod.ObjectMeta.Labels["app"])
+			cmn, err := p.cmnb.BuildClusterMetaName(pod.ObjectMeta.Labels["cluster"], port.Name, pod.ObjectMeta.Labels["app"])
+			if err != nil {
+				tlog.Warnw("build cluster metadata name",
+					"cluster_name", pod.ObjectMeta.Labels["cluster"],
+					"port_name", port.Name,
+					"app_name", pod.ObjectMeta.Labels["app"],
+					"error", err,
+				)
+				continue
+			}
+			if cmn.Kind != snsutil.K8S_ClusterKind {
+				tlog.Warnw("cluster kind is not k8s", "cmn", cmn.String())
+				continue
+			}
+
 			cluster := p.getOrNewCluster(cmn)
 			cluster.Spec.Endpoints = append(cluster.Spec.Endpoints, coresnsv1.Endpoint{
 				Addr:   snsutil.JoinHostPort(pod.Status.PodIP, int(port.ContainerPort)),
@@ -75,9 +96,10 @@ func (p *podCollection) ListClusters() []coresnsv1.SNSCluster {
 	return clusters
 }
 
-func objectsToClusters(namespace string, objects []interface{}) []coresnsv1.SNSCluster {
+func objectsToClusters(cmnb *snsutil.ClusterMetaNameBuilder, namespace string, objects []interface{}) []coresnsv1.SNSCluster {
 	pc := podCollection{
 		namespace: namespace,
+		cmnb:      cmnb,
 		clusters:  make(map[string]*coresnsv1.SNSCluster),
 	}
 	for _, object := range objects {
@@ -91,7 +113,7 @@ func objectsToClusters(namespace string, objects []interface{}) []coresnsv1.SNSC
 	return pc.ListClusters()
 }
 
-func objectToCNames(object interface{}) ([]string, error) {
+func objectToCNames(cmnb *snsutil.ClusterMetaNameBuilder, object interface{}) ([]string, error) {
 	pod, ok := object.(*corev1.Pod)
 	if !ok {
 		tlog.Errorw("object is not a pod", "object", object)
@@ -107,7 +129,16 @@ func objectToCNames(object interface{}) ([]string, error) {
 			if port.Name == "" {
 				continue
 			}
-			cmn := snsutil.NewClusterMetadataName(pod.ObjectMeta.Labels["cluster"], port.Name, pod.ObjectMeta.Labels["app"])
+			cmn, err := cmnb.BuildClusterMetaName(pod.ObjectMeta.Labels["cluster"], port.Name, pod.ObjectMeta.Labels["app"])
+			if err != nil {
+				tlog.Warnw("build cluster metadata name",
+					"cluster_name", pod.ObjectMeta.Labels["cluster"],
+					"port_name", port.Name,
+					"app_name", pod.ObjectMeta.Labels["app"],
+					"error", err,
+				)
+				continue
+			}
 			cnames = append(cnames, cmn.String())
 		}
 	}

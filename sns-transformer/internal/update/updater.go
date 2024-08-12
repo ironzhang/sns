@@ -39,8 +39,8 @@ func (p *Updater) UpdateCluster(ctx context.Context, c coresnsv1.SNSCluster) err
 	}
 
 	c.ObjectMeta.ResourceVersion = exist.ObjectMeta.ResourceVersion
-	if c.Spec.Tags == nil {
-		c.Spec.Tags = exist.Spec.Tags
+	if c.Spec.Labels == nil {
+		c.Spec.Labels = exist.Spec.Labels
 	}
 	if c.Spec.Endpoints == nil {
 		c.Spec.Endpoints = exist.Spec.Endpoints

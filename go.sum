@@ -47,8 +47,14 @@ github.com/ironzhang/superlib v0.0.0-20240612023153-8a8bf1a44864 h1:H9B7KIXD1HBn
 github.com/ironzhang/superlib v0.0.0-20240612023153-8a8bf1a44864/go.mod h1:LTzipoYEvhAo9Wz2oMLqDhyNPwS/jaZ3miscpcuNfzg=
 github.com/ironzhang/superlib v0.0.0-20240710120141-d99408155985 h1:JsfocBkt2k6FiK4uKU2hXqmIOmwSrvnvRd8s7faFKqU=
 github.com/ironzhang/superlib v0.0.0-20240710120141-d99408155985/go.mod h1:LTzipoYEvhAo9Wz2oMLqDhyNPwS/jaZ3miscpcuNfzg=
+github.com/ironzhang/superlib v0.0.0-20240806082956-4ebb336c0c37 h1:aXDwwX3sGUiZvpgDzUMD6+JP1gzNFeQR/rV2R41IUvI=
+github.com/ironzhang/superlib v0.0.0-20240806082956-4ebb336c0c37/go.mod h1:LTzipoYEvhAo9Wz2oMLqDhyNPwS/jaZ3miscpcuNfzg=
+github.com/ironzhang/superlib v0.0.0-20240807021855-5b97977a3bf8 h1:+i4WxvNMLgRPEM4NI+LdQSpv7zVkBRZi7NU0S0xf5eo=
+github.com/ironzhang/superlib v0.0.0-20240807021855-5b97977a3bf8/go.mod h1:LTzipoYEvhAo9Wz2oMLqDhyNPwS/jaZ3miscpcuNfzg=
 github.com/ironzhang/supernamego v0.0.0-20240710120533-53d53a88b776 h1:iriNzAYxD5rjFWSN1YlK665P8ymHtEMqcNEWK/UsMJE=
 github.com/ironzhang/supernamego v0.0.0-20240710120533-53d53a88b776/go.mod h1:C/6M1PH6BZMJm4vQQu/KI6spVD0spsiId1PAmdepk+Y=
+github.com/ironzhang/supernamego v0.0.0-20240812062007-27cefd4388e2 h1:K7Pml7+rlCH29p7DZ/E5k4rwsHtnCbdwrEmZ80DUdvs=
+github.com/ironzhang/supernamego v0.0.0-20240812062007-27cefd4388e2/go.mod h1:yrt5N47dy3079ryxtz3XDqVKk3ZhifHFgqV1Un1FPRQ=
 github.com/ironzhang/tapp v0.0.0-20240111031358-39164a99f46b h1:UWryaB5Gq8iWBYJBO8f7lsynJ8yg0qQTbpbQC0chqng=
 github.com/ironzhang/tapp v0.0.0-20240111031358-39164a99f46b/go.mod h1:awq3CZvM7KU3HPdkyrzy6C2xU9kSCutGhyIsC1Rz9MM=
 github.com/ironzhang/tlog v0.0.0-20230221102626-339a8b110d69 h1:1bWtGDWYIBcDuA5eCTTc2wzNZXJ3go8OiA4W72Ob7M0=

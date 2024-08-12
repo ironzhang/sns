@@ -26,6 +26,8 @@ import (
 type Interface interface {
 	// SNSClusters returns a SNSClusterInformer.
 	SNSClusters() SNSClusterInformer
+	// SNSRoutePolicies returns a SNSRoutePolicyInformer.
+	SNSRoutePolicies() SNSRoutePolicyInformer
 }
 
 type version struct {
@@ -42,4 +44,9 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 // SNSClusters returns a SNSClusterInformer.
 func (v *version) SNSClusters() SNSClusterInformer {
 	return &sNSClusterInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// SNSRoutePolicies returns a SNSRoutePolicyInformer.
+func (v *version) SNSRoutePolicies() SNSRoutePolicyInformer {
+	return &sNSRoutePolicyInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }

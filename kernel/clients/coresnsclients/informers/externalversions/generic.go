@@ -55,6 +55,8 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 	// Group=core.sns.io, Version=v1
 	case v1.SchemeGroupVersion.WithResource("snsclusters"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1().SNSClusters().Informer()}, nil
+	case v1.SchemeGroupVersion.WithResource("snsroutepolicies"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Core().V1().SNSRoutePolicies().Informer()}, nil
 
 	}
 

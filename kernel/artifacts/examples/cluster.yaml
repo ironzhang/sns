@@ -1,15 +1,17 @@
 apiVersion: "core.sns.io/v1"
 kind: SNSCluster
 metadata:
-  name: k8s.thrift.api
+  name: az00.default.manual.thrift.api
   namespace: sns
   labels:
     domain: thrift.api
-    cluster: k8s
+    cluster: az00.default.manual
 spec:
   kind: manual
-  tags:
-    Environment: "product"
+  labels:
+    X-Zone: "az00"
+    X-Lane: "default"
+    X-Kind: "manual"
   endpoints:
   - addr: "127.0.0.1:8000"
     state: "enabled"

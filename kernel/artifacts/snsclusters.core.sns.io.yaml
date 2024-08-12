@@ -22,7 +22,7 @@ spec:
               properties:
                 kind:
                   type: string
-                tags:
+                labels:
                   type: object
                   additionalProperties: true
                 endpoints:

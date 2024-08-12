@@ -36,10 +36,6 @@ func TestUpdater(t *testing.T) {
 			},
 		},
 		Spec: coresnsv1.ClusterSpec{
-			//Tags: map[string]string{
-			//	"Environment": "product",
-			//	"Lidc":        "hna",
-			//},
 			Endpoints: []coresnsv1.Endpoint{
 				{
 					Addr:   "127.0.0.1:8001",

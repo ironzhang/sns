@@ -13,7 +13,10 @@ import (
 )
 
 type Options struct {
-	Namespace string
+	Namespace   string
+	DefaultZone string
+	DefaultLane string
+	DefaultKind string
 }
 
 type Engine struct {
@@ -28,6 +31,11 @@ func NewEngine(opts Options, wc *k8sclient.WatchClient, pm *paths.PathManager, f
 		opts: opts,
 		wc:   wc,
 		cw: clusterWatcher{
+			sorter: &clusterSorter{
+				DefaultZone: opts.DefaultZone,
+				DefaultLane: opts.DefaultLane,
+				DefaultKind: opts.DefaultKind,
+			},
 			pathmgr: pm,
 			fwriter: fw,
 		},

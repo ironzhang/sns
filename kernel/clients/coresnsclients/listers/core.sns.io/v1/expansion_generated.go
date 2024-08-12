@@ -25,3 +25,11 @@ type SNSClusterListerExpansion interface{}
 // SNSClusterNamespaceListerExpansion allows custom methods to be added to
 // SNSClusterNamespaceLister.
 type SNSClusterNamespaceListerExpansion interface{}
+
+// SNSRoutePolicyListerExpansion allows custom methods to be added to
+// SNSRoutePolicyLister.
+type SNSRoutePolicyListerExpansion interface{}
+
+// SNSRoutePolicyNamespaceListerExpansion allows custom methods to be added to
+// SNSRoutePolicyNamespaceLister.
+type SNSRoutePolicyNamespaceListerExpansion interface{}

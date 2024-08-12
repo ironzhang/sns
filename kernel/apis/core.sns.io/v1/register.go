@@ -49,6 +49,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 	scheme.AddKnownTypes(SchemeGroupVersion,
 		&SNSCluster{},
 		&SNSClusterList{},
+		&SNSRoutePolicy{},
+		&SNSRoutePolicyList{},
 	)
 
 	scheme.AddKnownTypes(SchemeGroupVersion,

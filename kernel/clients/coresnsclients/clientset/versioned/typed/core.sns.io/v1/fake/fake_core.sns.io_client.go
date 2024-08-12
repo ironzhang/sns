@@ -32,6 +32,10 @@ func (c *FakeCoreV1) SNSClusters(namespace string) v1.SNSClusterInterface {
 	return &FakeSNSClusters{c, namespace}
 }
 
+func (c *FakeCoreV1) SNSRoutePolicies(namespace string) v1.SNSRoutePolicyInterface {
+	return &FakeSNSRoutePolicies{c, namespace}
+}
+
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
 func (c *FakeCoreV1) RESTClient() rest.Interface {

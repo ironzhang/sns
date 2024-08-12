@@ -29,7 +29,10 @@ var Conf = &Config{
 		KubeConfigPath: clientcmd.RecommendedHomeFile,
 	},
 	Engine: engine.Options{
-		Namespace: "sns",
+		Namespace:   "sns",
+		DefaultZone: "az00",
+		DefaultLane: "default",
+		DefaultKind: "k8s",
 	},
 	ResourcePath: parameter.Param.Watch.ResourcePath,
 }

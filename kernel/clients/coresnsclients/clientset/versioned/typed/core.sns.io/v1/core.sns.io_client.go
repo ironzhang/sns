@@ -27,6 +27,7 @@ import (
 type CoreV1Interface interface {
 	RESTClient() rest.Interface
 	SNSClustersGetter
+	SNSRoutePoliciesGetter
 }
 
 // CoreV1Client is used to interact with features provided by the core.sns.io group.
@@ -36,6 +37,10 @@ type CoreV1Client struct {
 
 func (c *CoreV1Client) SNSClusters(namespace string) SNSClusterInterface {
 	return newSNSClusters(c, namespace)
+}
+
+func (c *CoreV1Client) SNSRoutePolicies(namespace string) SNSRoutePolicyInterface {
+	return newSNSRoutePolicies(c, namespace)
 }
 
 // NewForConfig creates a new CoreV1Client for the given config.

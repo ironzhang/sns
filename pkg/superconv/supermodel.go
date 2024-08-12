@@ -23,7 +23,7 @@ func ToSupermodelCluster(c coresnsv1.SNSCluster) supermodel.Cluster {
 	}
 	return supermodel.Cluster{
 		Name:      c.ObjectMeta.Labels["cluster"],
-		Features:  c.Spec.Tags,
+		Labels:    c.Spec.Labels,
 		Endpoints: endpoints,
 	}
 }

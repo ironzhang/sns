@@ -15,10 +15,10 @@ import (
 )
 
 type options struct {
-	Forever     bool
-	Interval    time.Duration
-	RouteParams string
-	LogLevel    string
+	Forever      bool
+	Interval     time.Duration
+	RouteContext string
+	LogLevel     string
 }
 
 func (p *options) Setup() {
@@ -27,13 +27,13 @@ func (p *options) Setup() {
 		fmt.Fprintf(flag.CommandLine.Output(), "Options:\n")
 		flag.PrintDefaults()
 		fmt.Fprintf(flag.CommandLine.Output(), "\n")
-		fmt.Fprintf(flag.CommandLine.Output(), `Example: sns-lookup -route-params="X-Lane-Cluster=sim001,X-Base-Cluster=sim000" sns/https.nginx`)
+		fmt.Fprintf(flag.CommandLine.Output(), `Example: sns-lookup -route-context="X-Lane-Cluster=sim001,X-Base-Cluster=sim000" sns/https.nginx`)
 		fmt.Fprintf(flag.CommandLine.Output(), "\n")
 	}
 
 	flag.BoolVar(&p.Forever, "forever", false, "loop forever")
 	flag.DurationVar(&p.Interval, "interval", time.Second, "loop interval")
-	flag.StringVar(&p.RouteParams, "route-params", "", "route params")
+	flag.StringVar(&p.RouteContext, "route-context", "", "route context")
 	flag.StringVar(&p.LogLevel, "log-level", "fatal", "log level")
 	flag.Parse()
 
@@ -51,7 +51,7 @@ func setLogLevel(s string) {
 	}
 }
 
-func parseRouteParams(s string) (map[string]string, error) {
+func parseRouteContext(s string) (map[string]string, error) {
 	if s == "" {
 		return nil, nil
 	}
@@ -81,9 +81,9 @@ func printAddress(domain string, cluster string, addr string) {
 	fmt.Printf("\n")
 }
 
-func doLookup(routes map[string]string) {
+func doLookup(rctx map[string]string) {
 	for _, domain := range flag.Args() {
-		addr, cluster, err := supernamego.Lookup(context.Background(), domain, supernamego.SetRouteParams(routes))
+		addr, cluster, err := supernamego.Lookup(context.Background(), domain, supernamego.SetRouteContext(rctx))
 		if err != nil {
 			printError(domain, err)
 		} else {
@@ -103,19 +103,19 @@ func main() {
 		return
 	}
 
-	routes, err := parseRouteParams(opts.RouteParams)
+	rctx, err := parseRouteContext(opts.RouteContext)
 	if err != nil {
-		fmt.Printf("parse route params: %v\n", err)
+		fmt.Printf("parse route context: %v\n", err)
 		return
 	}
 
 	if !opts.Forever {
-		doLookup(routes)
+		doLookup(rctx)
 		return
 	}
 
 	for {
-		doLookup(routes)
+		doLookup(rctx)
 		time.Sleep(opts.Interval)
 	}
 }
