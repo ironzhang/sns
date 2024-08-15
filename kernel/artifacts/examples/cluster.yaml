@@ -1,15 +1,15 @@
 apiVersion: "core.sns.io/v1"
 kind: SNSCluster
 metadata:
-  name: az00.default.manual.thrift.api
+  name: dev.default.manual.http.myapp
   namespace: sns
   labels:
-    domain: thrift.api
-    cluster: az00.default.manual
+    domain: http.myapp
+    cluster: dev.default.manual
 spec:
   kind: manual
   labels:
-    X-Zone: "az00"
+    X-Zone: "dev"
     X-Lane: "default"
     X-Kind: "manual"
   endpoints:

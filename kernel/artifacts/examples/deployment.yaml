@@ -1,9 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k8s-myapp-deployment
+  name: dev-default-k8s-myapp-deployment
   labels:
-    app: k8s-myapp-deployment-v1
+    app: dev-default-k8s-myapp-deployment-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+      cluster: dev.default.k8s
+  template:
+    metadata:
+      labels:
+        app: myapp
+        cluster: dev.default.k8s
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.22
+        ports:
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: az00-default-k8s-myapp-deployment
+  labels:
+    app: az00-default-k8s-myapp-deployment-v1
 spec:
   replicas: 1
   selector:

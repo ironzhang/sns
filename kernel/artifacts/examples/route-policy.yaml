@@ -1,0 +1,48 @@
+apiVersion: "core.sns.io/v1"
+kind: SNSRoutePolicy
+metadata:
+  name: http.myapp
+  namespace: sns
+spec:
+  labelSelectors:
+  - - not: false
+      operator: equals
+      left:
+        type: table
+        table: labels
+        key: X-Zone
+        consts: []
+      right:
+        type: table
+        table: rctx
+        key: X-Zone
+        consts: []
+    - not: false
+      operator: equals
+      left:
+        type: table
+        table: labels
+        key: X-Lane
+        consts: []
+      right:
+        type: const
+        table: ""
+        key: ""
+        consts:
+        - default
+    - not: false
+      operator: equals
+      left:
+        type: table
+        table: labels
+        key: X-Kind
+        consts: []
+      right:
+        type: const
+        table: ""
+        key: ""
+        consts:
+        - k8s
+  routeScript:
+    enable: false
+    content: ""

@@ -1,0 +1,99 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.16.1
+  name: snsroutepolicies.core.sns.io
+spec:
+  group: core.sns.io
+  names:
+    kind: SNSRoutePolicy
+    listKind: SNSRoutePolicyList
+    plural: snsroutepolicies
+    singular: snsroutepolicy
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A specification of a route policy.
+            properties:
+              labelSelectors:
+                description: a label selector list
+                items:
+                  description: LabelSelector is a type which represents label selector.
+                  items:
+                    description: Requirement is a type which represents requirement.
+                    properties:
+                      left:
+                        description: Token is a type which represents token.
+                        properties:
+                          consts:
+                            items:
+                              type: string
+                            type: array
+                          key:
+                            type: string
+                          table:
+                            type: string
+                          type:
+                            description: TokenType is a type which represents the
+                              token's type.
+                            type: string
+                        type: object
+                      not:
+                        type: boolean
+                      operator:
+                        description: Operator is a type which represents operator.
+                        type: string
+                      right:
+                        description: Token is a type which represents token.
+                        properties:
+                          consts:
+                            items:
+                              type: string
+                            type: array
+                          key:
+                            type: string
+                          table:
+                            type: string
+                          type:
+                            description: TokenType is a type which represents the
+                              token's type.
+                            type: string
+                        type: object
+                    type: object
+                  type: array
+                type: array
+              routeScript:
+                description: route script
+                properties:
+                  content:
+                    type: string
+                  enable:
+                    type: boolean
+                type: object
+            type: object
+        type: object
+    served: true
+    storage: true

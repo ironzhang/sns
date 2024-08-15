@@ -6,7 +6,7 @@ import (
 	coresnsv1 "github.com/ironzhang/sns/kernel/apis/core.sns.io/v1"
 )
 
-// ToSupermodelEndpoint convert coresnsv1.Endpoint to supermodel.Endpoint
+// ToSupermodelEndpoint convert coresnsv1.Endpoint to supermodel.Endpoint.
 func ToSupermodelEndpoint(ep coresnsv1.Endpoint) supermodel.Endpoint {
 	return supermodel.Endpoint{
 		Addr:   ep.Addr,
@@ -15,7 +15,7 @@ func ToSupermodelEndpoint(ep coresnsv1.Endpoint) supermodel.Endpoint {
 	}
 }
 
-// ToSupermodelCluster convert coresnsv1.SNSCluster to supermodel.Cluster
+// ToSupermodelCluster convert coresnsv1.SNSCluster to supermodel.Cluster.
 func ToSupermodelCluster(c coresnsv1.SNSCluster) supermodel.Cluster {
 	endpoints := make([]supermodel.Endpoint, 0, len(c.Spec.Endpoints))
 	for _, ep := range c.Spec.Endpoints {
@@ -28,24 +28,43 @@ func ToSupermodelCluster(c coresnsv1.SNSCluster) supermodel.Cluster {
 	}
 }
 
-/*
-// ToSupermodelDestination convert superdnsv1.Destination to supermodel.Destination
-func ToSupermodelDestination(d superdnsv1.Destination) supermodel.Destination {
-	return supermodel.Destination{
-		Cluster: d.Cluster,
-		Percent: d.Percent,
+// ToSupermodelToken convert coresnsv1.Token to supermodel.Token.
+func ToSupermodelToken(t coresnsv1.Token) supermodel.Token {
+	return supermodel.Token{
+		Type:   supermodel.TokenType(t.Type),
+		Table:  t.Table,
+		Key:    t.Key,
+		Consts: t.Consts,
 	}
 }
 
-// ToSupermodelRouteStrategy convert superdnsv1.Route to supermodel.RouteStrategy
-func ToSupermodelRouteStrategy(r superdnsv1.Route) supermodel.RouteStrategy {
-	dests := make([]supermodel.Destination, 0, len(r.Spec.DefaultDestinations))
-	for _, d := range r.Spec.DefaultDestinations {
-		dests = append(dests, ToSupermodelDestination(d))
-	}
-	return supermodel.RouteStrategy{
-		EnableScript:        r.Spec.EnableScript,
-		DefaultDestinations: dests,
+// ToSupermodelRequirement convert coresnsv1.Requirement to supermodel.Requirement.
+func ToSupermodelRequirement(r coresnsv1.Requirement) supermodel.Requirement {
+	return supermodel.Requirement{
+		Not:      r.Not,
+		Operator: supermodel.Operator(r.Operator),
+		Left:     ToSupermodelToken(r.Left),
+		Right:    ToSupermodelToken(r.Right),
 	}
 }
-*/
+
+// ToSupermodelLabelSelector convert coresnsv1.LabelSelector to supermodel.LabelSelector.
+func ToSupermodelLabelSelector(s coresnsv1.LabelSelector) supermodel.LabelSelector {
+	results := make(supermodel.LabelSelector, 0, len(s))
+	for _, r := range s {
+		results = append(results, ToSupermodelRequirement(r))
+	}
+	return results
+}
+
+// ToSupermodelRoutePolicy convert coresnsv1.SNSRoutePolicy to supermodel.RoutePolicy.
+func ToSupermodelRoutePolicy(p coresnsv1.SNSRoutePolicy) supermodel.RoutePolicy {
+	selectors := make([]supermodel.LabelSelector, 0, len(p.Spec.LabelSelectors))
+	for _, s := range p.Spec.LabelSelectors {
+		selectors = append(selectors, ToSupermodelLabelSelector(s))
+	}
+	return supermodel.RoutePolicy{
+		EnableScript:   p.Spec.RouteScript.Enable,
+		LabelSelectors: selectors,
+	}
+}

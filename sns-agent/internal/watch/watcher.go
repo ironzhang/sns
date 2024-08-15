@@ -55,9 +55,9 @@ func (p *Watcher) WatchDomain(ctx context.Context, domain string, ttl time.Durat
 	if !p.inspection.ServiceReady(domain) {
 		p.engine.RefreshClusters(ctx, domain)
 	}
-	//	if !p.inspection.RouteReady(domain) {
-	//		p.engine.RefreshRoutes(ctx, domain)
-	//	}
+	if !p.inspection.RouteReady(domain) {
+		p.engine.RefreshRoutePolicies(ctx, domain)
+	}
 
 	return nil
 }

@@ -27,6 +27,6 @@ func clusterIndexerKey(domain string) string {
 	return fmt.Sprintf("cluster:%s", domain)
 }
 
-func routeIndexerKey(domain string) string {
-	return fmt.Sprintf("route:%s", domain)
+func routePolicyIndexerKey(domain string) string {
+	return fmt.Sprintf("routepolicy:%s", domain)
 }

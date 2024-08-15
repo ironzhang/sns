@@ -37,7 +37,7 @@ func TestEngine(t *testing.T) {
 	ctx := context.Background()
 
 	e := NewTestEngine(t)
-	err := e.WatchDomain(ctx, "sns.http.nginx")
+	err := e.WatchDomain(ctx, "http.myapp")
 	if err != nil {
 		t.Fatalf("watch domains: %v", err)
 	}

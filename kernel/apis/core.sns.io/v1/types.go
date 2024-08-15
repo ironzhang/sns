@@ -27,50 +27,100 @@ const (
 	Disabled State = "disabled"
 )
 
+// Operator is a type which represents operator.
+type Operator string
+
+// The Operator const values defined here.
+const (
+	Equals  Operator = "equals"
+	Belongs Operator = "belongs"
+)
+
+// TokenType is a type which represents the token's type.
+type TokenType string
+
+// The TokenType const values defined here.
+const (
+	Table TokenType = "table"
+	Const TokenType = "const"
+)
+
 // Endpoint is a type which represents endpoint.
 type Endpoint struct {
-	// +optional
-	Addr string `json:"addr,omitempty" protobuf:"bytes,1,opt,name=addr"`
+	Addr string `json:"addr"`
 
 	// +optional
-	State State `json:"state,omitempty" protobuf:"bytes,2,opt,name=state"`
+	State State `json:"state,omitempty"`
 
 	// +optional
-	Weight int `json:"weight,omitempty" protobuf:"varint,3,opt,name=weight"`
+	Weight int `json:"weight,omitempty"`
 
 	// +optional
 	// +patchStrategy=merge,retainKeys
-	Tags map[string]string `json:"tags,omitempty" patchStrategy:"merge,retainKeys" protobuf:"bytes,4,rep,name=tags"`
+	Tags map[string]string `json:"tags,omitempty" patchStrategy:"merge,retainKeys"`
 }
+
+// Token is a type which represents token.
+type Token struct {
+	// +optional
+	Type TokenType `json:"type,omitempty"`
+
+	// +optional
+	Table string `json:"table,omitempty"`
+
+	// +optional
+	Key string `json:"key,omitempty"`
+
+	// +optional
+	Consts []string `json:"consts,omitempty"`
+}
+
+// Requirement is a type which represents requirement.
+type Requirement struct {
+	// +optional
+	Not bool `json:"not,omitempty"`
+
+	// +optional
+	Operator Operator `json:"operator,omitempty"`
+
+	// +optional
+	Left Token `json:"left,omitempty"`
+
+	// +optional
+	Right Token `json:"right,omitempty"`
+}
+
+// LabelSelector is a type which represents label selector.
+type LabelSelector []Requirement
 
 // Destination is a type which represents route destination.
 type Destination struct {
 	// +optional
-	Cluster string `json:"cluster,omitempty" protobuf:"bytes,1,opt,name=cluster"`
+	Cluster string `json:"cluster,omitempty"`
 
 	// +optional
-	Percent float64 `json:"percent,omitempty" protobuf:"bytes,2,opt,name=percent"`
+	Percent float64 `json:"percent,omitempty"`
 }
 
 // RouteScript is a type which represents route script.
 type RouteScript struct {
 	// +optional
-	Enable bool `json:"enable,omitempty" protobuf:"bytes,1,opt,name=enable"`
+	Enable bool `json:"enable,omitempty"`
 
 	// +optional
-	Content string `json:"content,omitempty" protobuf:"bytes,2,opt,name=content"`
+	Content string `json:"content,omitempty"`
 }
 
 // ClusterSpec is a specification of a cluster.
 type ClusterSpec struct {
 	// cluster kind
 	// +optional
-	Kind string `json:"kind,omitempty" protobuf:"bytes,1,opt,name=kind"`
+	Kind string `json:"kind,omitempty"`
 
 	// A map is used to store cluster's labels.
 	// +optional
 	// +patchStrategy=merge,retainKeys
-	Labels map[string]string `json:"labels,omitempty" patchStrategy:"merge,retainKeys" protobuf:"bytes,2,rep,name=labels"`
+	Labels map[string]string `json:"labels,omitempty" patchStrategy:"merge,retainKeys"`
 
 	// An endpoint list of the cluster.
 	// +optional
@@ -78,18 +128,18 @@ type ClusterSpec struct {
 	// +patchStrategy=merge,retainKeys
 	// +listType=map
 	// +listMapKey=addr
-	Endpoints []Endpoint `json:"endpoints,omitempty" patchStrategy:"merge,retainKeys" patchMergeKey:"addr" protobuf:"bytes,3,rep,name=endpoints"`
+	Endpoints []Endpoint `json:"endpoints,omitempty" patchStrategy:"merge,retainKeys" patchMergeKey:"addr"`
 }
 
 // RoutePolicySpec is a specification of a route policy.
 type RoutePolicySpec struct {
+	// a label selector list
+	// +optional
+	LabelSelectors []LabelSelector `json:"labelSelectors,omitempty"`
+
 	// route script
 	// +optional
-	Script RouteScript `json:"script,omitempty" protobuf:"bytes,1,opt,name=script"`
-
-	// a default destination list
-	// +optional
-	DefaultDestinations []Destination `json:"defaultDestinations,omitempty" protobuf:"bytes,2,rep,name=defaultDestinations"`
+	RouteScript RouteScript `json:"routeScript,omitempty"`
 }
 
 // +genclient
@@ -102,11 +152,11 @@ type SNSCluster struct {
 	// Standard object's metadata.
 	// More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
 	// +optional
-	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	// A specification of a cluster.
 	// +optional
-	Spec ClusterSpec `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Spec ClusterSpec `json:"spec,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -118,10 +168,10 @@ type SNSClusterList struct {
 	// Standard list metadata.
 	// More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
 	// +optional
-	metav1.ListMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
+	metav1.ListMeta `json:"metadata,omitempty"`
 
 	// List of clusters.
-	Items []SNSCluster `json:"items" protobuf:"bytes,2,rep,name=items"`
+	Items []SNSCluster `json:"items"`
 }
 
 // +genclient
@@ -133,11 +183,11 @@ type SNSRoutePolicy struct {
 	// Standard object's metadata.
 	// More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
 	// +optional
-	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	// A specification of a route policy.
 	// +optional
-	Spec RoutePolicySpec `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Spec RoutePolicySpec `json:"spec,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -148,8 +198,8 @@ type SNSRoutePolicyList struct {
 	// Standard list metadata.
 	// More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
 	// +optional
-	metav1.ListMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
+	metav1.ListMeta `json:"metadata,omitempty"`
 
 	// List of route policies.
-	Items []SNSRoutePolicy `json:"items" protobuf:"bytes,2,rep,name=items"`
+	Items []SNSRoutePolicy `json:"items"`
 }

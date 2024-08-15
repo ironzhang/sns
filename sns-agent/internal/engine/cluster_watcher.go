@@ -2,6 +2,7 @@ package engine
 
 import (
 	"encoding/json"
+	"sort"
 
 	"k8s.io/client-go/tools/cache"
 
@@ -16,9 +17,9 @@ import (
 )
 
 type clusterWatcher struct {
-	sorter  *clusterSorter
-	pathmgr *paths.PathManager
-	fwriter *filewrite.FileWriter
+	defaultDestination string
+	pathmgr            *paths.PathManager
+	fwriter            *filewrite.FileWriter
 }
 
 func (p *clusterWatcher) OnWatch(indexer cache.Indexer, event k8sclient.Event) error {
@@ -48,8 +49,9 @@ func (p *clusterWatcher) OnRefresh(indexer cache.Indexer) {
 
 func (p *clusterWatcher) refresh(indexer cache.Indexer, c *coresnsv1.SNSCluster) error {
 	model := supermodel.ServiceModel{
-		Domain:   c.ObjectMeta.Labels["domain"],
-		Clusters: p.objectsToClusters(indexer.List()),
+		Domain:             c.ObjectMeta.Labels["domain"],
+		DefaultDestination: p.defaultDestination,
+		Clusters:           p.objectsToClusters(indexer.List()),
 	}
 	err := p.writeModel(model)
 	if err != nil {
@@ -83,6 +85,8 @@ func (p *clusterWatcher) objectsToClusters(objects []interface{}) []supermodel.C
 		clusters = append(clusters, superconv.ToSupermodelCluster(*c))
 	}
 
-	p.sorter.Sort(clusters)
+	sort.Slice(clusters, func(i, j int) bool {
+		return clusters[i].Name < clusters[j].Name
+	})
 	return clusters
 }
