@@ -38,53 +38,6 @@ spec:
           spec:
             description: A specification of a route policy.
             properties:
-              labelSelectors:
-                description: a label selector list
-                items:
-                  description: LabelSelector is a type which represents label selector.
-                  items:
-                    description: Requirement is a type which represents requirement.
-                    properties:
-                      left:
-                        description: Token is a type which represents token.
-                        properties:
-                          consts:
-                            items:
-                              type: string
-                            type: array
-                          key:
-                            type: string
-                          table:
-                            type: string
-                          type:
-                            description: TokenType is a type which represents the
-                              token's type.
-                            type: string
-                        type: object
-                      not:
-                        type: boolean
-                      operator:
-                        description: Operator is a type which represents operator.
-                        type: string
-                      right:
-                        description: Token is a type which represents token.
-                        properties:
-                          consts:
-                            items:
-                              type: string
-                            type: array
-                          key:
-                            type: string
-                          table:
-                            type: string
-                          type:
-                            description: TokenType is a type which represents the
-                              token's type.
-                            type: string
-                        type: object
-                    type: object
-                  type: array
-                type: array
               routeScript:
                 description: route script
                 properties:

@@ -3,7 +3,7 @@ module github.com/ironzhang/sns
 go 1.22.3
 
 require (
-	github.com/ironzhang/superlib v0.0.0-20240815061516-37a355c6f6cb
+	github.com/ironzhang/superlib v0.0.0-20240820120217-2995201216ae
 	github.com/ironzhang/tapp v0.0.0-20240111031358-39164a99f46b
 	github.com/ironzhang/tlog v0.0.0-20230221102626-339a8b110d69
 	k8s.io/api v0.30.1
@@ -28,7 +28,7 @@ require (
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/imdario/mergo v0.3.6 // indirect
-	github.com/ironzhang/supernamego v0.0.0-20240814125904-ced0a8f6ccd2 // indirect
+	github.com/ironzhang/supernamego v0.0.0-20240821093207-3cb374b36c7b // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/labstack/echo v3.3.10+incompatible // indirect

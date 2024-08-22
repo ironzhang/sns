@@ -27,24 +27,6 @@ const (
 	Disabled State = "disabled"
 )
 
-// Operator is a type which represents operator.
-type Operator string
-
-// The Operator const values defined here.
-const (
-	Equals  Operator = "equals"
-	Belongs Operator = "belongs"
-)
-
-// TokenType is a type which represents the token's type.
-type TokenType string
-
-// The TokenType const values defined here.
-const (
-	Table TokenType = "table"
-	Const TokenType = "const"
-)
-
 // Endpoint is a type which represents endpoint.
 type Endpoint struct {
 	Addr string `json:"addr"`
@@ -59,39 +41,6 @@ type Endpoint struct {
 	// +patchStrategy=merge,retainKeys
 	Tags map[string]string `json:"tags,omitempty" patchStrategy:"merge,retainKeys"`
 }
-
-// Token is a type which represents token.
-type Token struct {
-	// +optional
-	Type TokenType `json:"type,omitempty"`
-
-	// +optional
-	Table string `json:"table,omitempty"`
-
-	// +optional
-	Key string `json:"key,omitempty"`
-
-	// +optional
-	Consts []string `json:"consts,omitempty"`
-}
-
-// Requirement is a type which represents requirement.
-type Requirement struct {
-	// +optional
-	Not bool `json:"not,omitempty"`
-
-	// +optional
-	Operator Operator `json:"operator,omitempty"`
-
-	// +optional
-	Left Token `json:"left,omitempty"`
-
-	// +optional
-	Right Token `json:"right,omitempty"`
-}
-
-// LabelSelector is a type which represents label selector.
-type LabelSelector []Requirement
 
 // Destination is a type which represents route destination.
 type Destination struct {
@@ -133,10 +82,6 @@ type ClusterSpec struct {
 
 // RoutePolicySpec is a specification of a route policy.
 type RoutePolicySpec struct {
-	// a label selector list
-	// +optional
-	LabelSelectors []LabelSelector `json:"labelSelectors,omitempty"`
-
 	// route script
 	// +optional
 	RouteScript RouteScript `json:"routeScript,omitempty"`

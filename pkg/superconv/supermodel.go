@@ -28,43 +28,9 @@ func ToSupermodelCluster(c coresnsv1.SNSCluster) supermodel.Cluster {
 	}
 }
 
-// ToSupermodelToken convert coresnsv1.Token to supermodel.Token.
-func ToSupermodelToken(t coresnsv1.Token) supermodel.Token {
-	return supermodel.Token{
-		Type:   supermodel.TokenType(t.Type),
-		Table:  t.Table,
-		Key:    t.Key,
-		Consts: t.Consts,
-	}
-}
-
-// ToSupermodelRequirement convert coresnsv1.Requirement to supermodel.Requirement.
-func ToSupermodelRequirement(r coresnsv1.Requirement) supermodel.Requirement {
-	return supermodel.Requirement{
-		Not:      r.Not,
-		Operator: supermodel.Operator(r.Operator),
-		Left:     ToSupermodelToken(r.Left),
-		Right:    ToSupermodelToken(r.Right),
-	}
-}
-
-// ToSupermodelLabelSelector convert coresnsv1.LabelSelector to supermodel.LabelSelector.
-func ToSupermodelLabelSelector(s coresnsv1.LabelSelector) supermodel.LabelSelector {
-	results := make(supermodel.LabelSelector, 0, len(s))
-	for _, r := range s {
-		results = append(results, ToSupermodelRequirement(r))
-	}
-	return results
-}
-
 // ToSupermodelRoutePolicy convert coresnsv1.SNSRoutePolicy to supermodel.RoutePolicy.
 func ToSupermodelRoutePolicy(p coresnsv1.SNSRoutePolicy) supermodel.RoutePolicy {
-	selectors := make([]supermodel.LabelSelector, 0, len(p.Spec.LabelSelectors))
-	for _, s := range p.Spec.LabelSelectors {
-		selectors = append(selectors, ToSupermodelLabelSelector(s))
-	}
 	return supermodel.RoutePolicy{
-		EnableScript:   p.Spec.RouteScript.Enable,
-		LabelSelectors: selectors,
+		EnableScript: p.Spec.RouteScript.Enable,
 	}
 }
