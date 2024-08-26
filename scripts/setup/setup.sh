@@ -10,8 +10,11 @@ function StartMinikube() {
 }
 
 function CreateSNSCRDs() {
-	echo "(cd ../../kernel/artifacts && kubectl apply -f snsclusters.core.sns.io.yaml)"
-	(cd ../../kernel/artifacts && kubectl apply -f snsclusters.core.sns.io.yaml)
+	echo "(cd ../../kernel/crds && kubectl apply -f core.sns.io_snsclusters.yaml)"
+	(cd ../../kernel/crds && kubectl apply -f core.sns.io_snsclusters.yaml)
+
+	echo "(cd ../../kernel/crds && kubectl apply -f core.sns.io_snsroutepolicies.yaml)"
+	(cd ../../kernel/crds && kubectl apply -f core.sns.io_snsroutepolicies.yaml)
 
 	echo "(cd ../../kernel/artifacts && kubectl apply -f sns.namespace.yaml)"
 	(cd ../../kernel/artifacts && kubectl apply -f sns.namespace.yaml)

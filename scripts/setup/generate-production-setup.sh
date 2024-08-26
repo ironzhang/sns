@@ -9,7 +9,8 @@ function GetTransformerImagePath() {
 }
 
 function GenerateSNSCRDFiles() {
-	cp ../../kernel/artifacts/snsclusters.core.sns.io.yaml ./prod/
+	cp ../../kernel/crds/core.sns.io_snsclusters.yaml ./prod/
+	cp ../../kernel/crds/core.sns.io_snsroutepolicies.yaml ./prod/
 	cp ../../kernel/artifacts/sns.namespace.yaml ./prod/
 	cp ../../kernel/artifacts/sns.roles.yaml ./prod/
 }
@@ -41,7 +42,8 @@ EOF
 
 function GenerateSetupFile() {
 	cat <<'EOF' > ./prod/setup.sh
-kubectl apply -f snsclusters.core.sns.io.yaml
+kubectl apply -f core.sns.io_snsclusters.yaml
+kubectl apply -f core.sns.io_snsroutepolicies.yaml
 kubectl apply -f sns.namespace.yaml
 kubectl apply -f sns.roles.yaml
 kubectl apply -f transformer-deployment.yaml
