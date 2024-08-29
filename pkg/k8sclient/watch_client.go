@@ -2,6 +2,7 @@ package k8sclient
 
 import (
 	"context"
+	"time"
 
 	"github.com/ironzhang/tlog"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -99,10 +100,11 @@ func (p *WatchClient) Watch(ctx context.Context, namespace, resource string, obj
 
 	// run worker
 	w := worker{
-		watcher:    watcher,
-		queue:      queue,
-		indexer:    indexer,
-		controller: controller,
+		watcher:          watcher,
+		queue:            queue,
+		indexer:          indexer,
+		controller:       controller,
+		waitForCacheSync: time.Second,
 	}
 	w.Run(ctx)
 

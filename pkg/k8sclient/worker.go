@@ -13,10 +13,11 @@ import (
 )
 
 type worker struct {
-	watcher    Watcher
-	queue      workqueue.RateLimitingInterface
-	indexer    cache.Indexer
-	controller cache.Controller
+	watcher          Watcher
+	queue            workqueue.RateLimitingInterface
+	indexer          cache.Indexer
+	controller       cache.Controller
+	waitForCacheSync time.Duration
 }
 
 func (p *worker) HandleErr(err error, item interface{}) {
@@ -64,9 +65,9 @@ func (p *worker) Run(ctx context.Context) {
 
 	go p.controller.Run(ctx.Done())
 
-	if !cache.WaitForCacheSync(ctx.Done(), p.controller.HasSynced) {
+	timeoutctx, _ := context.WithTimeout(ctx, p.waitForCacheSync)
+	if !cache.WaitForCacheSync(timeoutctx.Done(), p.controller.HasSynced) {
 		tlog.WithContext(ctx).Errorw("timed out waiting for caches to sync")
-		return
 	}
 
 	go wait.Until(p.RunWorker, 500*time.Millisecond, ctx.Done())
