@@ -4,45 +4,46 @@ metadata:
   name: http.myapp
   namespace: sns
 spec:
-  labelSelectors:
-  - - not: false
-      operator: equals
-      left:
-        type: table
-        table: labels
-        key: X-Zone
-        consts: []
-      right:
-        type: table
-        table: rctx
-        key: X-Zone
-        consts: []
-    - not: false
-      operator: equals
-      left:
-        type: table
-        table: labels
-        key: X-Lane
-        consts: []
-      right:
-        type: const
-        table: ""
-        key: ""
-        consts:
-        - default
-    - not: false
-      operator: equals
-      left:
-        type: table
-        table: labels
-        key: X-Kind
-        consts: []
-      right:
-        type: const
-        table: ""
-        key: ""
-        consts:
-        - k8s
   routeScript:
-    enable: false
-    content: ""
+    enable: true
+    content: |
+      -- http.myapp
+      if MatchFuncs == nil then
+        MatchFuncs = {}
+      end
+      
+      MatchFuncs["http.myapp"] = function(ctx, clusters)
+        UserDefineLablesMatch = function(ctx, labels)
+          if ctx["X-Zone"] ~= labels["X-Zone"] then
+            return false
+          end
+          if ctx["X-Lane"] ~= labels["X-Lane"] then
+            return false
+          end
+          return true
+        end
+
+        DefaultLabelsMatch = function(ctx, labels)
+          if ctx["X-Zone"] ~= labels["X-Zone"] then
+            return false
+          end
+          if labels["X-Lane"] ~= "default" then
+            return false
+          end
+          return true
+        end
+      
+        for _, cluster in pairs(clusters) do
+          if UserDefineLablesMatch(ctx, cluster.Labels) then
+            return { {cluster.Name, 1} }
+          end
+        end
+      
+        for _, cluster in pairs(clusters) do
+          if DefaultLabelsMatch(ctx, cluster.Labels) then
+            return { {cluster.Name, 1} }
+          end
+        end
+      
+        return {}
+      end
