@@ -57,6 +57,8 @@ github.com/ironzhang/superlib v0.0.0-20240815061516-37a355c6f6cb h1:oylaipUjaOxh
 github.com/ironzhang/superlib v0.0.0-20240815061516-37a355c6f6cb/go.mod h1:Q0exNsg8GdwpMWyTdRiw2vLjIDMCp6qzwiDgxEl/0Ao=
 github.com/ironzhang/superlib v0.0.0-20240820120217-2995201216ae h1:9Tqkc8af3obFrGlkK0fDKn6hlqpTQqPVsyJhE72434c=
 github.com/ironzhang/superlib v0.0.0-20240820120217-2995201216ae/go.mod h1:Q0exNsg8GdwpMWyTdRiw2vLjIDMCp6qzwiDgxEl/0Ao=
+github.com/ironzhang/superlib v0.0.0-20240912100135-a5bb7c63c5ab h1:ZuUcOO9UaAVxTJUu80zQ2e7dVhRFiwV5CiXpYvoW59w=
+github.com/ironzhang/superlib v0.0.0-20240912100135-a5bb7c63c5ab/go.mod h1:Q0exNsg8GdwpMWyTdRiw2vLjIDMCp6qzwiDgxEl/0Ao=
 github.com/ironzhang/supernamego v0.0.0-20240710120533-53d53a88b776 h1:iriNzAYxD5rjFWSN1YlK665P8ymHtEMqcNEWK/UsMJE=
 github.com/ironzhang/supernamego v0.0.0-20240710120533-53d53a88b776/go.mod h1:C/6M1PH6BZMJm4vQQu/KI6spVD0spsiId1PAmdepk+Y=
 github.com/ironzhang/supernamego v0.0.0-20240812062007-27cefd4388e2 h1:K7Pml7+rlCH29p7DZ/E5k4rwsHtnCbdwrEmZ80DUdvs=
@@ -65,6 +67,8 @@ github.com/ironzhang/supernamego v0.0.0-20240814125904-ced0a8f6ccd2 h1:YwhLXaWyX
 github.com/ironzhang/supernamego v0.0.0-20240814125904-ced0a8f6ccd2/go.mod h1:qUc9P1H2fiKfdVBGbXc7VYznEBlJQPH+aVd7AEMPtcs=
 github.com/ironzhang/supernamego v0.0.0-20240821093207-3cb374b36c7b h1:JUqdUGo62WkLS/NO43KtYfTQzvhlJoc/gh4wFVA8W7A=
 github.com/ironzhang/supernamego v0.0.0-20240821093207-3cb374b36c7b/go.mod h1:sBMStKxmxUF9l8KyND7Or/iFCwfo7+0bMqEijTFPSOU=
+github.com/ironzhang/supernamego v0.0.0-20240912100530-63156deb75d1 h1:gQkN03mBeYEjyQnqJ2hhrckmJPXsb7pUKqEKCxzbc1M=
+github.com/ironzhang/supernamego v0.0.0-20240912100530-63156deb75d1/go.mod h1:zBF5cyWLzi99Y32zDotDdvpxLtd8gmDtZM5v1ErMu9o=
 github.com/ironzhang/tapp v0.0.0-20240111031358-39164a99f46b h1:UWryaB5Gq8iWBYJBO8f7lsynJ8yg0qQTbpbQC0chqng=
 github.com/ironzhang/tapp v0.0.0-20240111031358-39164a99f46b/go.mod h1:awq3CZvM7KU3HPdkyrzy6C2xU9kSCutGhyIsC1Rz9MM=
 github.com/ironzhang/tlog v0.0.0-20230221102626-339a8b110d69 h1:1bWtGDWYIBcDuA5eCTTc2wzNZXJ3go8OiA4W72Ob7M0=

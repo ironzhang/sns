@@ -14,20 +14,17 @@ spec:
       labels:
         app: caller
     spec:
+      volumes:
+        - name: supername-path
+          hostPath:
+            path: /var/supername
       containers:
       - name: caller
         image: docker-registry:5000/sns/examples/caller:latest
         volumeMounts:
         - name: supername-path
-          mountPath: /root/.supername
+          mountPath: /var/supername
+          readOnly: true
         ports:
         - name: http
           containerPort: 8000
-      - name: sns-agent
-        image: docker-registry:5000/sns/agent:latest
-        volumeMounts:
-        - name: supername-path
-          mountPath: /root/.supername
-      volumes:
-        - name: supername-path
-          emptyDir: {}

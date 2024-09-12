@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: sns-agent
+  namespace: kube-system
+  labels:
+    k8s-app: sns-agent
+spec:
+  selector:
+    matchLabels:
+      k8s-app: sns-agent
+  template:
+    metadata:
+      labels:
+        k8s-app: sns-agent
+    spec:
+      hostNetwork: true
+      containers:
+      - name: sns-agent
+        image: docker-registry:5000/sns/agent:latest
+        volumeMounts:
+        - name: supername-path
+          mountPath: /var/supername
+        ports:
+          - containerPort: 1789
+            hostPort: 1789
+      volumes:
+        - name: supername-path
+          hostPath:
+            path: /var/supername

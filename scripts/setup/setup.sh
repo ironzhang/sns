@@ -60,6 +60,11 @@ function RunTransformerPod() {
 	kubectl apply -f transformer-deployment.yaml
 }
 
+function RunAgentDaemonSet() {
+	echo "kubectl apply -f agent-daemonset.yaml"
+	kubectl apply -f agent-daemonset.yaml
+}
+
 function BuildExampleImages() {
 	echo "(cd ../../examples/callee/dockers && ./build-docker-image.sh)"
 	(cd ../../examples/callee/dockers && ./build-docker-image.sh)
@@ -97,6 +102,7 @@ function DebugUsage() {
 	echo "	./setup.sh debug BuildTransformerImage"
 	echo "	./setup.sh debug BuildAgentImage"
 	echo "	./setup.sh debug RunTransformerPod"
+	echo "	./setup.sh debug RunAgentDaemonSet"
 	echo "	./setup.sh debug BuildExampleImages"
 	echo "	./setup.sh debug RunExamplePods"
 }
@@ -124,6 +130,9 @@ function DebugFunc() {
 			;;
 		"XRunTransformerPod" )
 			RunTransformerPod
+			;;
+		"XRunAgentDaemonSet" )
+			RunAgentDaemonSet
 			;;
 		"XBuildExampleImages" )
 			BuildExampleImages
@@ -159,6 +168,7 @@ function Init() {
 	BuildAgentImage
 
 	RunTransformerPod
+	RunAgentDaemonSet
 }
 
 function Clean() {

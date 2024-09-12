@@ -17,8 +17,9 @@
 
 ## Issues
 
+- [ ] 日志配置
 - [ ] 更新 README
-- [ ] agent 支持 DaemonSet
+- [x] agent 支持 DaemonSet
 - [ ] 支持 prometheus 上报监控指标
 - [ ] WatchDomainsReq.TTL 单位固定为秒，方便 SDK 支持多语言
 - [ ] pod 的 app 和 cluster 标签都是必填项，sns-transformer 不支持设置默认 cluster 标签

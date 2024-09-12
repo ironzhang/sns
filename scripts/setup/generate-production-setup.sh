@@ -40,6 +40,10 @@ spec:
 EOF
 }
 
+function GenerateAgentDaemonSetFile() {
+	cp ./agent-daemonset.yaml ./prod/
+}
+
 function GenerateSetupFile() {
 	cat <<'EOF' > ./prod/setup.sh
 kubectl apply -f core.sns.io_snsclusters.yaml
@@ -47,6 +51,7 @@ kubectl apply -f core.sns.io_snsroutepolicies.yaml
 kubectl apply -f sns.namespace.yaml
 kubectl apply -f sns.roles.yaml
 kubectl apply -f transformer-deployment.yaml
+kubectl apply -f agent-daemonset.yaml
 EOF
 	chmod u+x ./prod/setup.sh
 }
@@ -57,6 +62,7 @@ function main() {
 	mkdir -p prod
 	GenerateSNSCRDFiles
 	GenerateTransformerDeploymentFile $transformerImage
+	GenerateAgentDaemonSetFile
 	GenerateSetupFile
 }
 

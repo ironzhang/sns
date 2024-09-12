@@ -14,9 +14,17 @@ spec:
       labels:
         app: callee
     spec:
+      volumes:
+        - name: supername-path
+          hostPath:
+            path: /var/supername
       containers:
       - name: callee
         image: docker-registry:5000/sns/examples/callee:latest
+        volumeMounts:
+        - name: supername-path
+          mountPath: /var/supername
+          readOnly: true
         ports:
         - name: http
           containerPort: 8001
