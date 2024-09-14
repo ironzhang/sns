@@ -22,7 +22,5 @@ var Conf = &Config{
 	Transform: transform.Options{
 		SourceNamespace: "default",
 		TargetNamespace: "sns",
-		DefaultZone:     "dev",
-		DefaultLane:     "default",
 	},
 }

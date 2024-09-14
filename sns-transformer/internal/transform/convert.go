@@ -16,7 +16,6 @@ import (
 
 type podCollection struct {
 	namespace string
-	cmnb      *snsutil.ClusterMetaNameBuilder
 	clusters  map[string]*coresnsv1.SNSCluster
 }
 
@@ -52,7 +51,7 @@ func (p *podCollection) AddPod(pod *corev1.Pod) {
 	if pod.Status.PodIP == "" {
 		return
 	}
-	if pod.ObjectMeta.Labels["app"] == "" {
+	if pod.ObjectMeta.Labels["app"] == "" || pod.ObjectMeta.Labels["cluster"] == "" {
 		return
 	}
 
@@ -62,7 +61,7 @@ func (p *podCollection) AddPod(pod *corev1.Pod) {
 				continue
 			}
 
-			cmn, err := p.cmnb.BuildClusterMetaName(pod.ObjectMeta.Labels["cluster"], port.Name, pod.ObjectMeta.Labels["app"])
+			cmn, err := snsutil.BuildClusterMetaName(pod.ObjectMeta.Labels["cluster"], port.Name, pod.ObjectMeta.Labels["app"])
 			if err != nil {
 				tlog.Warnw("build cluster metadata name",
 					"cluster_name", pod.ObjectMeta.Labels["cluster"],
@@ -96,10 +95,9 @@ func (p *podCollection) ListClusters() []coresnsv1.SNSCluster {
 	return clusters
 }
 
-func objectsToClusters(cmnb *snsutil.ClusterMetaNameBuilder, namespace string, objects []interface{}) []coresnsv1.SNSCluster {
+func objectsToClusters(namespace string, objects []interface{}) []coresnsv1.SNSCluster {
 	pc := podCollection{
 		namespace: namespace,
-		cmnb:      cmnb,
 		clusters:  make(map[string]*coresnsv1.SNSCluster),
 	}
 	for _, object := range objects {
@@ -113,13 +111,13 @@ func objectsToClusters(cmnb *snsutil.ClusterMetaNameBuilder, namespace string, o
 	return pc.ListClusters()
 }
 
-func objectToCNames(cmnb *snsutil.ClusterMetaNameBuilder, object interface{}) ([]string, error) {
+func objectToCNames(object interface{}) ([]string, error) {
 	pod, ok := object.(*corev1.Pod)
 	if !ok {
 		tlog.Errorw("object is not a pod", "object", object)
 		return nil, errors.New("object is not a pod")
 	}
-	if pod.ObjectMeta.Labels["app"] == "" {
+	if pod.ObjectMeta.Labels["app"] == "" || pod.ObjectMeta.Labels["cluster"] == "" {
 		return nil, nil
 	}
 
@@ -129,7 +127,7 @@ func objectToCNames(cmnb *snsutil.ClusterMetaNameBuilder, object interface{}) ([
 			if port.Name == "" {
 				continue
 			}
-			cmn, err := cmnb.BuildClusterMetaName(pod.ObjectMeta.Labels["cluster"], port.Name, pod.ObjectMeta.Labels["app"])
+			cmn, err := snsutil.BuildClusterMetaName(pod.ObjectMeta.Labels["cluster"], port.Name, pod.ObjectMeta.Labels["app"])
 			if err != nil {
 				tlog.Warnw("build cluster metadata name",
 					"cluster_name", pod.ObjectMeta.Labels["cluster"],

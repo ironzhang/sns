@@ -8,13 +8,11 @@ import (
 	"github.com/ironzhang/tlog"
 
 	"github.com/ironzhang/sns/pkg/k8sclient"
-	"github.com/ironzhang/sns/pkg/snsutil"
 	"github.com/ironzhang/sns/sns-transformer/internal/update"
 )
 
 type podWatcher struct {
 	targetNamespace string
-	cmnb            *snsutil.ClusterMetaNameBuilder
 	updater         *update.Updater
 }
 
@@ -27,9 +25,9 @@ func (p *podWatcher) OnWatch(indexer cache.Indexer, event k8sclient.Event) error
 		return nil
 	}
 
-	clusters := objectsToClusters(p.cmnb, p.targetNamespace, objects)
+	clusters := objectsToClusters(p.targetNamespace, objects)
 	if len(clusters) <= 0 {
-		cnames, err := objectToCNames(p.cmnb, event.Object)
+		cnames, err := objectToCNames(event.Object)
 		if err != nil {
 			return nil
 		}

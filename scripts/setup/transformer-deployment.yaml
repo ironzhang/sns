@@ -1,18 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sns-transformer-deployment
+  name: sns-transformer
+  namespace: kube-system
   labels:
-    app: sns-transformer-deployment-v1
+    sns-app: sns-transformer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sns-transformer
+      sns-app: sns-transformer
   template:
     metadata:
       labels:
-        app: sns-transformer
+        sns-app: sns-transformer
     spec:
       containers:
       - name: transformer

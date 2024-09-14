@@ -9,10 +9,12 @@ spec:
   selector:
     matchLabels:
       app: caller
+      cluster: dev.default.k8s
   template:
     metadata:
       labels:
         app: caller
+        cluster: dev.default.k8s
     spec:
       volumes:
         - name: supername-path

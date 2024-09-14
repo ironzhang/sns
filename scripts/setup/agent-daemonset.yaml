@@ -4,15 +4,15 @@ metadata:
   name: sns-agent
   namespace: kube-system
   labels:
-    k8s-app: sns-agent
+    sns-app: sns-agent
 spec:
   selector:
     matchLabels:
-      k8s-app: sns-agent
+      sns-app: sns-agent
   template:
     metadata:
       labels:
-        k8s-app: sns-agent
+        sns-app: sns-agent
     spec:
       hostNetwork: true
       containers:

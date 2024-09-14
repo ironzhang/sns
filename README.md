@@ -48,12 +48,12 @@ spec:
   selector:
     matchLabels:
       app: myapp
-      cluster: k8s
+      cluster: dev.default.k8s
   template:
     metadata:
       labels:
         app: myapp
-        cluster: k8s
+        cluster: dev.default.k8s
     spec:
       containers:
       - name: nginx

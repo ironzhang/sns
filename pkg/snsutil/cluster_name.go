@@ -34,28 +34,15 @@ func ParseClusterName(name string) (zone, lane, kind string, err error) {
 	return slice[0], slice[1], slice[2], nil
 }
 
-type ClusterMetaNameBuilder struct {
-	DefaultZone string
-	DefaultLane string
-	DefaultKind string
-}
-
-func (p *ClusterMetaNameBuilder) BuildClusterMetaName(clusterName, portName, appName string) (ClusterMetaName, error) {
+func BuildClusterMetaName(clusterName, portName, appName string) (ClusterMetaName, error) {
+	if clusterName == "" {
+		return ClusterMetaName{}, errors.New("cluster name is invalid")
+	}
 	if portName == "" {
 		return ClusterMetaName{}, errors.New("port name is invalid")
 	}
 	if appName == "" {
 		return ClusterMetaName{}, errors.New("app name is invalid")
-	}
-
-	if clusterName == "" {
-		return ClusterMetaName{
-			Zone:        p.DefaultZone,
-			Lane:        p.DefaultLane,
-			Kind:        p.DefaultKind,
-			PortName:    portName,
-			Application: appName,
-		}, nil
 	}
 
 	zone, lane, kind, err := ParseClusterName(clusterName)
